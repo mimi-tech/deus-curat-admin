@@ -7,8 +7,9 @@ import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 class NeedyDonors extends StatefulWidget {
-  const NeedyDonors({Key? key, required this.needyDetails}) : super(key: key);
+  const NeedyDonors({Key? key, required this.needyDetails, this.requestIndex}) : super(key: key);
   final List<NeedyModel>? needyDetails;
+  final int? requestIndex;
 
   @override
   State<NeedyDonors> createState() => _NeedyDonorsState();
@@ -18,40 +19,45 @@ class _NeedyDonorsState extends State<NeedyDonors> {
 
   @override
   Widget build(BuildContext context) {
-
     var theme = Theme.of(context).textTheme;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Column(
-      mainAxisSize: MainAxisSize.min,
+     // mainAxisSize: MainAxisSize.min,
       children: [
 
-        ListView.builder(
-            itemCount: widget.needyDetails!.length,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
-        itemBuilder: ( context, index){
+        Expanded(
+          child: ListView(
+            children: [
+              ListView.builder(
+                  itemCount: widget.needyDetails!.length,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+              itemBuilder: ( context, index){
+               return  SizedBox(
+                width: width * 0.5,
 
-         return SizedBox(
-          width: width * 0.5,
-          child: PaginatedDataTable(
-            header:  Text("${widget.needyDetails![index].firstName} ${widget.needyDetails![index].lastName} Donors",style: theme.displayMedium,
-            ),
-            rowsPerPage: Constant.requestPayments[index].length == 0 ? 1:Constant.requestPayments[index].length,
-            columnSpacing:width * 0.04 ,
-            arrowHeadColor: kYellow,
-            columns:  [
-              DataColumn(label: Text('S / N',style: theme.displayMedium,)),
-              DataColumn(label: Text('First name',style: theme.displayMedium,)),
-              DataColumn(label: Text('Last name',style: theme.displayMedium,)),
-              DataColumn(label: Text('Gender',style: theme.displayMedium,)),
-              DataColumn(label: Text('Amount',style: theme.displayMedium,)),
-              DataColumn(label: Text('Date & Time',style: theme.displayMedium,)),
-            ],
-            source: DataSources(context, Constant.requestPayments[index]),
-          ),
-        );
+                child: PaginatedDataTable(
+                  header:  Text("${widget.needyDetails![index].firstName} ${widget.needyDetails![index].lastName} Donors",style: theme.displayMedium,
+                  ),
+                  rowsPerPage: Constant.requestPayments[widget.requestIndex??index].length == 0 ? 1:Constant.requestPayments[widget.requestIndex??index].length,
+                  columnSpacing:width * 0.04 ,
+                  arrowHeadColor: kYellow,
+                  columns:  [
+                    DataColumn(label: Text('S / N',style: theme.displayMedium,)),
+                    DataColumn(label: Text('First name',style: theme.displayMedium,)),
+                    DataColumn(label: Text('Last name',style: theme.displayMedium,)),
+                    DataColumn(label: Text('Gender',style: theme.displayMedium,)),
+                    DataColumn(label: Text('Amount',style: theme.displayMedium,)),
+                    DataColumn(label: Text('Date & Time',style: theme.displayMedium,)),
+                  ],
+                  source: DataSources(context, Constant.requestPayments[widget.requestIndex??index]),
+                ),
+              );
   }),
+            ],
+          ),
+        ),
         spacing(),
       ],
     );}

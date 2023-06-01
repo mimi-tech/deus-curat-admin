@@ -246,7 +246,9 @@ class _NeedyWidgetState extends ConsumerState<NeedyWidget> {
             )
             ).toList()),
          spacing(),
-         NeedyDonors(needyDetails: widget.needyDetails,)
+         SizedBox(
+             height: height * 0.7,
+             child: NeedyDonors(needyDetails: widget.needyDetails,))
       ],
     );
   }

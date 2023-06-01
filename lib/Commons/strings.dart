@@ -6,7 +6,9 @@ const String allRequest = 'All request';
 const String rejectedRequest = 'Rejected request';
 const String displayedRequest = 'Display request';
 const String shownRequest = 'Shown request';
-const String donation = 'donation';
+const String allDonation = 'All donation';
+const String acceptedDonation = 'Accepted donation';
+const String newDonation = 'New donation';
 const String testimony = 'testimony';
 const String users = 'users';
 const String admin = 'admin';
@@ -17,5 +19,6 @@ const String deleteTooltip = 'If you delete this request, it will not be retrive
 const String displayTooltip = 'You are about to show this need to the world';
 const String rejectTooltip = 'Rejecting this request, The user will be notified';
 const String editTooltip = 'Edit needy request to be more suitable if necessary';
+const String placeholder = 'https://thumbs.dreamstime.com/b/happy-person-arms-raised-outstretched-69762123.jpg';
 
 

@@ -86,6 +86,7 @@ final getNeedy = FutureProvider<List<NeedyModel>>((ref) async {
       final List<dynamic> responseData = response.data!["data"];
 
       Constant.requestPayments.add(response.data!["data"]);
+
     }
     if(response is Failure){
       Constant.requestPayments.addAll([]);
@@ -133,6 +134,14 @@ class MyChangeNotifier extends ChangeNotifier {
     }
   }
 
+  void isLoading(){
+    setLoading(true);
+  }
+
+  void notIsLoading(){
+    setLoading(false);
+  }
+
   getUpdateNeedStatus(userAuthId,type) async {
     setLoading(true);
     var response = await Repository.updateNeedy(userAuthId,type);
@@ -161,12 +170,46 @@ class MyChangeNotifier extends ChangeNotifier {
   }
 
   Future<List<NeedyModel>> getRequest(type) async {
+    Constant.requestPayments.clear();
     var response = await Repository.getRequest(pageNumber, type);
     if (response is Success) {
       final List<dynamic> responseData = response.data!["data"];
       final needs = responseData.map((json) => NeedyModel.fromJson(json)).toList();
+      for(int i = 0; i < needs.length; i++){
+        await getPayment(needs[i].id);
+      }
       return needs;
     }
+    return [];
+  }
+
+  Future<NeedyModel> getARequest(userAuthId) async {
+
+    var response = await Repository.getANeedy(userAuthId);
+    if (response is Success) {
+      NeedyModel needy = NeedyModel.fromJson(response.data!["data"]);
+
+      return needy;
+    }
+    throw "Error occurred";
+  }
+
+  Future<List<PaymentModel>> getPaymentType(type) async {
+    //setLoading(true);
+
+    Constant.neededDonationMadeTo.clear();
+    var response = await Repository.paymentType(pageNumber, type);
+    if (response is Success) {
+      final List<dynamic> responseData = response.data!["data"];
+      final needs = responseData.map((json) => PaymentModel.fromJson(json)).toList();
+      for(int i = 0; i <  needs.length; i++){
+       var result = await getARequest(needs[i].requestId);
+       Constant.neededDonationMadeTo.add(result);
+      }
+
+      return needs;
+    }
+
     return [];
   }
 

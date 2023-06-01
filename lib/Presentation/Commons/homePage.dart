@@ -5,6 +5,7 @@ import 'package:deuscurat_admin/Logic/sharedPreference.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Presentation/Commons/appLogo.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Dashboard/dashboardWidget.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Donation/donations.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needy.dart';
 import 'package:deuscurat_admin/Presentation/Request/newRequest.dart';
 import 'package:deuscurat_admin/Presentation/Widgets/closeMenu.dart';
@@ -63,6 +64,19 @@ class HomePage extends HookConsumerWidget {
         case shownRequest:
           screen = const NewRequest();
           break;
+
+        case allDonation:
+          screen = const Donations();
+          break;
+
+          case acceptedDonation:
+          screen = const Donations();
+          break;
+
+        case newDonation:
+          screen = const Donations();
+          break;
+
         default:
           print('Selected fruit is unknown');
       }

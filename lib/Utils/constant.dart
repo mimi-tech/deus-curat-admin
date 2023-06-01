@@ -1,3 +1,4 @@
+import 'package:deuscurat_admin/Models/needyModel.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,4 +9,5 @@ Widget spacing()=>SizedBox(height: 20.0.h);
 
 class Constant{
  static List<dynamic> requestPayments =  [];
+ static List<NeedyModel> neededDonationMadeTo =  [];
 }

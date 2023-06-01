@@ -5,6 +5,7 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/appNotifier.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Needy/needyDonorsWidget.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/editNeedyDetails.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/progressIndicator.dart';
@@ -31,7 +32,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double widthSize = width * 0.2;
+    double widthSize = width * 0.1;
     double heightSize = height * 0.2;
     double iconSize = 15.0.sp;
     final myChangeNotifier = ref.watch(myChangeNotifierProvider);
@@ -41,7 +42,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
     itemBuilder: ( context, index){
-      _controller = VideoPlayerController.network(widget.needy![index].video.toString());
+      List<NeedyModel> list = [ widget.needy![index]];
     return Card(
     child: Padding(
       padding: const EdgeInsets.all(8.0),
@@ -50,19 +51,25 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
       children: [
 
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // spacing: 5.sp,
+          // runSpacing: 10.sp,
+          // alignment: WrapAlignment.spaceBetween,
+          // crossAxisAlignment: WrapCrossAlignment.start,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height:Responsive.isMobile(context)?height * 0.1: heightSize,
                 width: Responsive.isDesktop(context)?widthSize:width * 0.7,
                 child: CachedNetworkImage(
                   imageUrl:widget.needy![index].images.toString(),
-                  placeholder: (context, url) =>  Image.network("https://thumbs.dreamstime.com/b/happy-person-arms-raised-outstretched-69762123.jpg",
+                  placeholder: (context, url) =>  Image.network(placeholder,
                     height:Responsive.isMobile(context)?height * 0.1: heightSize,
                     width: Responsive.isDesktop(context)?widthSize:width * 0.7,
                     fit: BoxFit.cover,),
-                  errorWidget: (context, url, error) =>Image.network("https://thumbs.dreamstime.com/b/happy-person-arms-raised-outstretched-69762123.jpg",
+                  errorWidget: (context, url, error) =>Image.network(placeholder,
                     height:Responsive.isMobile(context)?height * 0.1: heightSize,
                     width: Responsive.isDesktop(context)?widthSize:width * 0.7,
                     fit: BoxFit.cover,),
@@ -73,7 +80,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
               ),
 
               Stack(
-                alignment: Alignment.center,
+                //alignment: Alignment.center,
                 children: <Widget>[
                   Container(
                     color: kBlackColor,
@@ -81,9 +88,15 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                       height: heightSize,),
 
 
-                  const Center(
-                    child: InkWell(
-                      child:Icon(Icons.play_arrow,color: kWhiteColor,),
+                  const Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 100,
+                    child: Center(
+                      child: InkWell(
+                        child:Icon(Icons.play_arrow,color: kWhiteColor,),
+                      ),
                     ),
                   )
 
@@ -117,7 +130,6 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                         IconButton(onPressed: (){
                         }, icon:const Icon(Icons.thumb_up_alt_outlined,size: 20,)),
                         Text(widget.needy![index].likeCount.toString(),style: theme.headlineSmall),
-
                       ],
                     ),
 
@@ -127,12 +139,13 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
 
                         }, icon:const Icon(Icons.thumb_down_alt_outlined,size: 20,)),
                         Text(widget.needy![index].disLikeCount.toString(),style: theme.headlineSmall),
-
                       ],
                     ),
 
                   ],
                 ),
+
+
                 spacing(),
                 IntrinsicHeight(
                   child: Row(
@@ -162,6 +175,10 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
               ],
             ),
           ),
+           SizedBox(
+              height: height * 0.4,
+              width: width * 0.4,
+              child: NeedyDonors(needyDetails: list,requestIndex: index,)),
         ],
         ),
         spacing(),

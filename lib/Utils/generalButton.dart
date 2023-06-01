@@ -44,7 +44,7 @@ class DesktopButton extends StatelessWidget {
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 70.0.sp,vertical: 15.0.sp),
+            EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
           ),
           backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),

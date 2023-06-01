@@ -11,6 +11,7 @@ class OpenMenu extends ConsumerWidget {
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     final requestType = ref.watch(requestTypeProvider);
+    final donationType = ref.watch(donationTypeProvider);
     var theme = Theme.of(context).textTheme;
     return Container(
       child: (
@@ -29,6 +30,7 @@ class OpenMenu extends ConsumerWidget {
             onTap:(){
               ref.read(screenTypeProvider.notifier).state = dashboard;
               ref.read(requestTypeProvider.notifier).state = false;
+              ref.read(donationTypeProvider.notifier).state = false;
                 },
             leading: const Icon(Icons.dashboard,color: kDrawerTextColor,),
             title: Text("DashBoard",style: theme.titleSmall,),
@@ -40,6 +42,7 @@ class OpenMenu extends ConsumerWidget {
             onTap:(){
                ref.read(screenTypeProvider.notifier).state = needy;
                ref.read(requestTypeProvider.notifier).state = false;
+               ref.read(donationTypeProvider.notifier).state = false;
                  },
 
             leading: const Icon(Icons.person,color: kDrawerTextColor,),
@@ -49,6 +52,7 @@ class OpenMenu extends ConsumerWidget {
           ListTile(
             onTap: (){
               ref.read(requestTypeProvider.notifier).state = !requestType;
+              ref.read(donationTypeProvider.notifier).state = false;
             },
             leading: const Icon(Icons.help,color: kDrawerTextColor,),
             title: Text("Request",style: theme.titleSmall!.copyWith(color: requestType == true ?kWhiteColor:kDrawerTextColor),),
@@ -91,9 +95,41 @@ class OpenMenu extends ConsumerWidget {
           ),
 
           ListTile(
+            onTap: (){
+              ref.read(donationTypeProvider.notifier).state = !donationType;
+              ref.read(requestTypeProvider.notifier).state = false;
+              },
             leading: const Icon(Icons.monetization_on,color: kDrawerTextColor,),
-            title: Text("Donations",style: theme.titleSmall,),
+            title: Text("Donations",style: theme.titleSmall!.copyWith(color: donationType == true ?kWhiteColor:kDrawerTextColor)),
+            trailing: const Icon(Icons.arrow_drop_down,color: kDrawerTextColor,),
           ),
+          if(donationType == true)
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            color: kDrawerTextColor2,
+            child: Column(
+              children: [
+                ListTile(
+                  onTap:()=>ref.read(screenTypeProvider.notifier).state = allDonation,
+                  leading: Icon(Icons.monetization_on_outlined,color: kDrawerTextColor,size: 15.sp,),
+                  title: Text("All Donations(s)",style: theme.titleSmall,),
+                ),
+
+                ListTile(
+                  onTap:()=>ref.read(screenTypeProvider.notifier).state = acceptedDonation,
+                  leading: Icon(Icons.monetization_on_outlined,color: kDrawerTextColor,size: 15.sp,),
+                  title: Text("Accepted Donations(s)",style: theme.titleSmall,),
+                ),
+
+                ListTile(
+                  onTap:()=>ref.read(screenTypeProvider.notifier).state = newDonation,
+                  leading: Icon(Icons.monetization_on_outlined,color: kDrawerTextColor,size: 15.sp,),
+                  title: Text("New Donations(s)",style: theme.titleSmall,),
+                ),
+              ],
+            ),
+          ),
+
           ListTile(
             leading: const Icon(Icons.transfer_within_a_station,color: kDrawerTextColor,),
             title: Text("Testimony",style: theme.titleSmall,),

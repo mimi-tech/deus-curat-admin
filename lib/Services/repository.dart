@@ -294,4 +294,64 @@ class Repository{
   }
 
 
+  static Future<Object> paymentType(pageNumber, type) async {
+    try {
+      String token = await UserPreferences().getToken();
+
+      var url = Uri.parse("$baseUrl/get-payment?page=$pageNumber&type=$type");
+
+      Response response = await https.get(url, headers: {'Content-Type': 'application/json' });
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded);
+      }
+
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
+
+
+  static Future<Object> getANeedy(userAuthId) async {
+    try {
+      String token = await UserPreferences().getToken();
+
+      var url = Uri.parse("$baseUrl/needy/get-a-needy-account?userAuthId=$userAuthId");
+
+      Response response = await https.get(url, headers: {'Content-Type': 'application/json','authorization':token });
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded);
+      }
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
+
 }
