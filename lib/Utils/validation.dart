@@ -58,6 +58,16 @@ class Validator {
     return null;
   }
 
+  static String? validateFieldSearch(String? value) {
+    if(value!.isEmpty) {
+      return "Search query can't be empty";
+    }
+    if(value.length < 2) {
+      return "Search query is too short";
+    }
+
+    return null;
+  }
 
 
 }

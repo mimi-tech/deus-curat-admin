@@ -12,7 +12,9 @@ class OpenMenu extends ConsumerWidget {
   Widget build(BuildContext context,WidgetRef ref) {
     final requestType = ref.watch(requestTypeProvider);
     final donationType = ref.watch(donationTypeProvider);
+    final usersType = ref.watch(usersTypeProvider);
     var theme = Theme.of(context).textTheme;
+
     return Container(
       child: (
       Column(
@@ -31,6 +33,7 @@ class OpenMenu extends ConsumerWidget {
               ref.read(screenTypeProvider.notifier).state = dashboard;
               ref.read(requestTypeProvider.notifier).state = false;
               ref.read(donationTypeProvider.notifier).state = false;
+              ref.read(usersTypeProvider.notifier).state = false;
                 },
             leading: const Icon(Icons.dashboard,color: kDrawerTextColor,),
             title: Text("DashBoard",style: theme.titleSmall,),
@@ -43,6 +46,7 @@ class OpenMenu extends ConsumerWidget {
                ref.read(screenTypeProvider.notifier).state = needy;
                ref.read(requestTypeProvider.notifier).state = false;
                ref.read(donationTypeProvider.notifier).state = false;
+               ref.read(usersTypeProvider.notifier).state = false;
                  },
 
             leading: const Icon(Icons.person,color: kDrawerTextColor,),
@@ -53,6 +57,7 @@ class OpenMenu extends ConsumerWidget {
             onTap: (){
               ref.read(requestTypeProvider.notifier).state = !requestType;
               ref.read(donationTypeProvider.notifier).state = false;
+              ref.read(usersTypeProvider.notifier).state = false;
             },
             leading: const Icon(Icons.help,color: kDrawerTextColor,),
             title: Text("Request",style: theme.titleSmall!.copyWith(color: requestType == true ?kWhiteColor:kDrawerTextColor),),
@@ -98,6 +103,7 @@ class OpenMenu extends ConsumerWidget {
             onTap: (){
               ref.read(donationTypeProvider.notifier).state = !donationType;
               ref.read(requestTypeProvider.notifier).state = false;
+              ref.read(usersTypeProvider.notifier).state = false;
               },
             leading: const Icon(Icons.monetization_on,color: kDrawerTextColor,),
             title: Text("Donations",style: theme.titleSmall!.copyWith(color: donationType == true ?kWhiteColor:kDrawerTextColor)),
@@ -131,12 +137,48 @@ class OpenMenu extends ConsumerWidget {
           ),
 
           ListTile(
+            onTap:() {
+              ref.read(screenTypeProvider.notifier).state = testimony;
+
+            },
             leading: const Icon(Icons.transfer_within_a_station,color: kDrawerTextColor,),
             title: Text("Testimony",style: theme.titleSmall,),
           ),
+
           ListTile(
+            onTap: (){
+              ref.read(usersTypeProvider.notifier).state = !usersType;
+
+            },
             leading: const Icon(Icons.person_add,color: kDrawerTextColor,),
-            title: Text("Users",style: theme.titleSmall,),
+            title: Text("Users",style: theme.titleSmall!.copyWith(color: usersType == true ?kWhiteColor:kDrawerTextColor,)),
+            trailing: const Icon(Icons.arrow_drop_down,color: kDrawerTextColor,),
+          ),
+          if(usersType == true)
+          Container(
+            margin: const EdgeInsets.only(left: 10),
+            color: kDrawerTextColor2,
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: (){
+                    ref.read(screenTypeProvider.notifier).state = users;
+                  },
+                  leading:  Icon(Icons.person_add,color: kDrawerTextColor,size: 15.sp),
+                  title: Text("All Users",style: theme.titleSmall,),
+
+                ),
+
+                ListTile(
+                  onTap: (){
+                    ref.read(screenTypeProvider.notifier).state = blockedUsers;
+                  },
+                  leading:  Icon(Icons.block,color: kDrawerTextColor,size: 15.sp),
+                  title: Text("Blocked Users",style: theme.titleSmall,),
+
+                ),
+              ],
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.admin_panel_settings,color: kDrawerTextColor,),

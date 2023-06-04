@@ -8,6 +8,5 @@ Widget spacing()=>SizedBox(height: 20.0.h);
 
 
 class Constant{
- static List<dynamic> requestPayments =  [];
- static List<NeedyModel> neededDonationMadeTo =  [];
+
 }

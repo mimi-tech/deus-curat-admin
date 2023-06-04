@@ -4,6 +4,8 @@ import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/commonModel.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Models/testimonyModel.dart';
+import 'package:deuscurat_admin/Models/userModel.dart';
 import 'package:deuscurat_admin/Services/apiConstants.dart';
 import 'package:deuscurat_admin/Services/repository.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
@@ -64,13 +66,13 @@ final getHighestDonors = FutureProvider<List<PaymentModel>>((ref) async {
 });
 
 final getNeedy = FutureProvider<List<NeedyModel>>((ref) async {
-  Constant.requestPayments.clear();
+  MyChangeNotifier().requestPayments.clear();
   var response = await Repository.getApprovedNeeds();
   if (response is Success) {
     final List<dynamic> responseData = response.data!["data"];
     final needs = responseData.map((json) => NeedyModel.fromJson(json)).toList();
     for(int i = 0; i < needs.length; i++){
-       await getPayment(needs[i].id);
+       await MyChangeNotifier().getPayment(needs[i].id);
     }
     return needs;
   }
@@ -80,18 +82,9 @@ final getNeedy = FutureProvider<List<NeedyModel>>((ref) async {
 );
 
 
-  getPayment([String? requestId]) async {
-    var response = await Repository.payment(requestId);
-    if (response is Success) {
-      final List<dynamic> responseData = response.data!["data"];
 
-      Constant.requestPayments.add(response.data!["data"]);
 
-    }
-    if(response is Failure){
-      Constant.requestPayments.addAll([]);
-    }
-  }
+
 
 
 
@@ -111,6 +104,9 @@ class MyChangeNotifier extends ChangeNotifier {
   int _pageNumber = 1;
   int get pageNumber => _pageNumber;
 
+
+  String _errorText = "";
+  String get errorText => _errorText;
   void incrementPageNumber(){
     _pageNumber++;
     notifyListeners();
@@ -121,10 +117,30 @@ class MyChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+
+  setErrorText(String successText) async {
+    _errorText = errorText;
+    notifyListeners();
+  }
+
+   List<dynamic> _requestPayments =  [];
+  List<dynamic> get requestPayments => _requestPayments;
+
+ List<NeedyModel> _neededDonationMadeTo =  [];
+  List<NeedyModel> get neededDonationMadeTo => _neededDonationMadeTo;
+
+  List<PaymentModel> _usersPayment =  [];
+  List<PaymentModel> get usersPayment => _usersPayment;
+
+  List<NewUser> _searchedUsers =  [];
+  List<NewUser> get searchedUsers => _searchedUsers;
+
+
   getDeleteNeedy(userAuthId) async {
      setLoading(true);
     var response = await Repository.deleteNeedy(userAuthId);
     if (response is Success) {
+      setLoading(false);
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
       return true;
     }
@@ -146,9 +162,11 @@ class MyChangeNotifier extends ChangeNotifier {
     setLoading(true);
     var response = await Repository.updateNeedy(userAuthId,type);
     if (response is Success) {
+      setLoading(false);
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
     }
     if(response is Failure){
+
       setLoading(false);
       FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
 
@@ -159,6 +177,7 @@ class MyChangeNotifier extends ChangeNotifier {
     setLoading(true);
     var response = await Repository.updateNeedyDetails(title,description,amountNeeded,userAuthId);
     if (response is Success) {
+      setLoading(false);
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
 
     }
@@ -170,7 +189,7 @@ class MyChangeNotifier extends ChangeNotifier {
   }
 
   Future<List<NeedyModel>> getRequest(type) async {
-    Constant.requestPayments.clear();
+    requestPayments.clear();
     var response = await Repository.getRequest(pageNumber, type);
     if (response is Success) {
       final List<dynamic> responseData = response.data!["data"];
@@ -196,15 +215,14 @@ class MyChangeNotifier extends ChangeNotifier {
 
   Future<List<PaymentModel>> getPaymentType(type) async {
     //setLoading(true);
-
-    Constant.neededDonationMadeTo.clear();
+    neededDonationMadeTo.clear();
     var response = await Repository.paymentType(pageNumber, type);
     if (response is Success) {
       final List<dynamic> responseData = response.data!["data"];
       final needs = responseData.map((json) => PaymentModel.fromJson(json)).toList();
       for(int i = 0; i <  needs.length; i++){
        var result = await getARequest(needs[i].requestId);
-       Constant.neededDonationMadeTo.add(result);
+       neededDonationMadeTo.add(result);
       }
 
       return needs;
@@ -213,4 +231,155 @@ class MyChangeNotifier extends ChangeNotifier {
     return [];
   }
 
+
+  Future<List<TestimonyModel>> getTestimony() async {
+    //setLoading(true);
+    var response = await Repository.testimony(pageNumber);
+    if (response is Success) {
+      final List<dynamic> responseData = response.data!["data"];
+      final testimony = responseData.map((json) => TestimonyModel.fromJson(json)).toList();
+      return testimony;
+    }
+
+    return [];
+  }
+
+  getCreateTestimony(imagesAfter, videoAfter, userAuthId, testimonyTitle, testimonyDesc) async {
+    setLoading(true);
+    var imageUrl = await Repository.uploadFileFirebase(imagesAfter);
+    var videoUrl = await Repository.uploadFileFirebase(videoAfter,true);
+
+    var response = await Repository.createTestimony(imageUrl, videoUrl, userAuthId, testimonyTitle, testimonyDesc);
+    if (response is Success) {
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+      setLoading(false);
+    }
+
+    if(response is Failure){
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+      setLoading(false);
+    }
+  }
+  getPayment([String? requestId]) async {
+    var response = await Repository.payment(requestId);
+    if (response is Success) {
+     requestPayments.add(response.data!["data"]);
+
+    }
+    if(response is Failure){
+      requestPayments.addAll([]);
+    }
+  }
+
+  Future<List<PaymentModel>> getUserPayment(userAuthId) async {
+    var response = await Repository.usersPayment(userAuthId);
+    if (response is Success) {
+      List<dynamic> payment = response.data!["data"];
+      final users = payment.map((json) => PaymentModel.fromJson(json)).toList();
+      return users;
+
+    }
+   return [];
+  }
+
+  getDeleteTestimony(testimonyId) async {
+    setLoading(true);
+    var response = await Repository.deleteTestimony(testimonyId);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
+  }
+
+  Future<List<NewUser>> getUsers(type) async {
+    usersPayment.clear();
+    neededDonationMadeTo.clear();
+    var response = await Repository.users(pageNumber,type);
+    if (response is Success) {
+      final List<dynamic> responseData = response.data!["data"];
+      final users = responseData.map((json) => NewUser.fromJson(json)).toList();
+      for(int i = 0; i < users.length; i++){
+        if(users[i].contributionCount >=1){
+        var result = await getUserPayment(users[i].userId);
+        usersPayment.addAll(result);
+      }else{
+          usersPayment.add(PaymentModel());
+        }
+
+      }
+
+      return users;
+    }
+    return [];
+  }
+
+  getDeleteUser(userAuthId) async {
+    setLoading(true);
+    var response = await Repository.deleteUser(userAuthId);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
+  }
+  getBlockUser(accountId) async {
+    setLoading(true);
+    var response = await Repository.blockUser(accountId);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
+  }
+
+  Future<TestimonyModel> getUserTestimony(testimonyId) async {
+    var response = await Repository.getATestimony(testimonyId);
+    if (response is Success) {
+
+      final testimony =  TestimonyModel.fromJson(response.data!["data"]);
+      return testimony;
+
+    }
+    return TestimonyModel();
+  }
+
+  getSearchUser(searchQuery) async {
+
+      setLoading(true);
+      searchedUsers.clear();
+      var response = await Repository.searchUser(searchQuery);
+      if (response is Success) {
+        final List<dynamic> responseData = response.data!["data"];
+        final user = responseData.map((json) => NewUser.fromJson(json)).toList();
+        searchedUsers.addAll(user);
+        setLoading(false);
+        if(user.isEmpty){
+          setErrorText(response.message.toString());
+        }
+      }
+      if(response is Failure){
+        setLoading(false);
+        FlutterToastFunction().getToast(title: response.errorResponse.toString(),color: kRedColor);
+
+        setErrorText(response.errorResponse.toString());
+
+      }
+
+  }
 }

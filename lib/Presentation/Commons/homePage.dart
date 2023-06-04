@@ -7,6 +7,9 @@ import 'package:deuscurat_admin/Presentation/Commons/appLogo.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Dashboard/dashboardWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Donation/donations.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needy.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Testimony/testimony.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Users/allUsers.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Users/searchedUsers.dart';
 import 'package:deuscurat_admin/Presentation/Request/newRequest.dart';
 import 'package:deuscurat_admin/Presentation/Widgets/closeMenu.dart';
 import 'package:deuscurat_admin/Presentation/Widgets/openMenu.dart';
@@ -75,6 +78,22 @@ class HomePage extends HookConsumerWidget {
 
         case newDonation:
           screen = const Donations();
+          break;
+
+        case testimony:
+          screen = const Testimony();
+          break;
+
+        case users:
+          screen = const AllUsers();
+          break;
+
+        case blockedUsers:
+          screen = const AllUsers();
+          break;
+
+        case searchUsers:
+          screen = const SearchedUsers();
           break;
 
         default:

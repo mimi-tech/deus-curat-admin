@@ -1,8 +1,11 @@
 
+import 'package:deuscurat_admin/Commons/strings.dart';
+
 class PaymentModel {
   String? id;
   String? requestId;
   String? requestAuthId;
+  String? userAuthId;
   String? phoneNumber;
   String? gender;
   dynamic createdAt;
@@ -13,12 +16,17 @@ class PaymentModel {
   dynamic needyGender;
   bool? accepted;
   dynamic amount;
+  String? needyAddress;
+  String? needyTitle;
+  String? needyImage;
+
 
   PaymentModel({
 
     this.id,
     this.requestId,
     this.requestAuthId,
+    this.userAuthId,
     this.phoneNumber,
     this.firstName,
     this.lastName,
@@ -28,6 +36,9 @@ class PaymentModel {
     this.needyGender,
     this.accepted,
     this.amount,
+    this.needyAddress,
+    this.needyTitle,
+    this.needyImage,
   });
   // now create converter
 
@@ -43,8 +54,12 @@ class PaymentModel {
       createdAt: responseData['createdAt'] ?? DateTime.now().toString(),
       needyName: responseData['requestDetails']['needyName']?? "",
       needyGender: responseData['requestDetails']['needyGender'] ?? "",
+      needyAddress: responseData['requestDetails']['needyAddress'] ?? "No 8b Douglas road",
+      needyTitle: responseData['requestDetails']['needyTitle'] ?? "I need to go to school",
+      needyImage: responseData['requestDetails']['needyImage'] ?? placeholder,
       amount: responseData['amount'] ?? 0,
       accepted: responseData['accepted'] ?? false,
+      userAuthId: responseData['userAuthId'] ?? "",
 
     );
   }
@@ -63,5 +78,9 @@ class PaymentModel {
       "needyGender":needyGender,
       "accepted":accepted,
       "amount":amount,
+      "needyAddress":needyAddress,
+      "needyTitle":needyTitle,
+      "needyImage":needyImage,
+      "userAuthId":userAuthId,
     };
   }}

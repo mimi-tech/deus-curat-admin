@@ -5,9 +5,12 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/appNotifier.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
+import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needyDonorsWidget.dart';
+import 'package:deuscurat_admin/Presentation/Request/widgets/createTestimony.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/editNeedyDetails.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
+import 'package:deuscurat_admin/Utils/generalButton.dart';
 import 'package:deuscurat_admin/Utils/progressIndicator.dart';
 import 'package:deuscurat_admin/Utils/responsive.dart';
 import 'package:flutter/material.dart';
@@ -36,8 +39,10 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
     double heightSize = height * 0.2;
     double iconSize = 15.0.sp;
     final myChangeNotifier = ref.watch(myChangeNotifierProvider);
+    final screenType = ref.watch(screenTypeProvider);
+
     var theme = Theme.of(context).textTheme;
-    return  ListView.builder(
+    return myChangeNotifier.requestPayments.isEmpty?const ShowProgressIndicator(): ListView.builder(
         itemCount: widget.needy!.length,
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
@@ -60,24 +65,12 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
+              ImageDisplay(
                 height:Responsive.isMobile(context)?height * 0.1: heightSize,
                 width: Responsive.isDesktop(context)?widthSize:width * 0.7,
-                child: CachedNetworkImage(
-                  imageUrl:widget.needy![index].images.toString(),
-                  placeholder: (context, url) =>  Image.network(placeholder,
-                    height:Responsive.isMobile(context)?height * 0.1: heightSize,
-                    width: Responsive.isDesktop(context)?widthSize:width * 0.7,
-                    fit: BoxFit.cover,),
-                  errorWidget: (context, url, error) =>Image.network(placeholder,
-                    height:Responsive.isMobile(context)?height * 0.1: heightSize,
-                    width: Responsive.isDesktop(context)?widthSize:width * 0.7,
-                    fit: BoxFit.cover,),
-                  fit: BoxFit.cover,
-
-
-                ),
+                imageUrl:widget.needy![index].images ,
               ),
+
 
               Stack(
                 //alignment: Alignment.center,
@@ -86,8 +79,6 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                     color: kBlackColor,
                       width: widthSize,
                       height: heightSize,),
-
-
                   const Positioned(
                     left: 0,
                     right: 0,
@@ -238,6 +229,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                 ref.read(myChangeNotifierProvider).getUpdateNeedStatus(widget.needy![index].userAuthId,'display');
                 setState(() {
                   widget.needy!.removeAt(index);
+                  myChangeNotifier.requestPayments.removeAt(index);
                 });
 
               },tooltip: displayTooltip,),
@@ -290,6 +282,13 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
             ),
           ],
         ),
+        screenType == displayedRequest
+
+        ?myChangeNotifier.loading == true
+            ?const LoadingButton()
+            :GeneralButton(title: "Create Testimony", tapStudiesButton: (){CreateTestimonyDialog().showCreateTestimonyDialog(context: context,needy:widget.needy![index]);})
+        :const Text(""),
+
         spacing(),
       ],
       ),

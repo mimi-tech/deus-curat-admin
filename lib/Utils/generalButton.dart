@@ -142,3 +142,33 @@ class LoadingButton extends StatelessWidget {
         child:const CircularProgressIndicator(color: kWhiteColor,)
     );
   }}
+
+class GeneralButtonOutlined extends StatelessWidget{
+const GeneralButtonOutlined({Key? key,
+required this.title,
+required this.tapStudiesButton,
+this.color,
+this.textColor,
+
+}) : super(key: key);
+final String title;
+final VoidCallback tapStudiesButton;
+final Color? color;
+final Color? textColor;
+@override
+Widget build(BuildContext context) {
+  return OutlinedButton(
+
+    onPressed: tapStudiesButton,
+    style: ButtonStyle(
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
+
+        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
+        ),
+        backgroundColor: MaterialStateProperty.all<Color>(color??Colors.transparent)),
+    child:Text(title.toUpperCase(),
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor??kOrangeColor)),
+  );
+}}

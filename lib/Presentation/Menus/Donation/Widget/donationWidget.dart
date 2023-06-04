@@ -4,6 +4,8 @@ import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Commons/dimens.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Donation/Widget/donationConstructor.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/requestWidget.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/currency%20Format.dart';
@@ -32,87 +34,64 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
     double widthSize = width * 0.3;
     double heightSize = height * 0.2;
     double iconSize = 15.0.sp;
-   // final myChangeNotifier = ref.watch(myChangeNotifierProvider);
+    final myChangeNotifier = ref.watch(myChangeNotifierProvider);
     var theme = Theme.of(context).textTheme;
-    return ListView.builder(
+    return myChangeNotifier.neededDonationMadeTo.isEmpty?const ShowProgressIndicator():ListView.builder(
       itemCount: widget.donation!.length,
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
     itemBuilder: ( context, index){
         var data = widget.donation![index];
-        var request = Constant.neededDonationMadeTo[index];
+        var request = myChangeNotifier.neededDonationMadeTo[index];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
              Row(
                children: [
-                 Container(
-                   width:!Responsive.isDesktop(context)?width:widthSize,
-                   color: kWhiteColor,
-                   child: Padding(
-                     padding: const EdgeInsets.only(top: 18.0, bottom: 30.0),
-                     child: Column(
-                       children: [
-                         spacing(),
-                         Container(
-                           height: 50.h,
-                           width: 50.w,
-                           decoration: const BoxDecoration(
-                             shape: BoxShape.circle,
-                             color: kOrangeColor
-                           ),
-                           child: Center(child: Text("${data.firstName!.substring(0,1)} ${data.lastName!.substring(0,1)}",style: theme.labelSmall,)),
-                         ),
-                         spacing(),
-                         Text("${data.firstName!} ${data.lastName!}",style: theme.titleMedium,),
-                         Text(DateFormat("EEEE MMM, d yyyy h:ma").format(DateTime.parse(data.createdAt)),style: theme.titleLarge,),
-                         Text("${data.phoneNumber}",style: theme.headlineMedium,),
-                         Text("${data.gender}",style: theme.headlineMedium,),
-                         spacing(),
-                         Text(formatCurrency(data.amount),style: theme.bodySmall
-                         ),
-                         spacing(),
-                         Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           children: [
-                             GeneralButton(title: "Delete", tapStudiesButton: (){},color: kRedColor,),
-                             const SizedBox(width: 10,),
-                              data.accepted == true
-                                 ?const Icon(Icons.check,color: kGreenColor)
-                                 :GeneralButton(title: "Accept", tapStudiesButton: (){}),
-                           ],
-                         ),
-                       ],
-                     ),
-                   ),
+                 DonationConstructor(
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    gender: data.gender,
+                    createdAt: data.createdAt,
+                    phoneNumber: data.phoneNumber,
+                    amount: data.amount,
+                    accepted: data.accepted,
                  ),
 
-                   request == null?const Text("Request not founf"): Padding(
+
+
+                   request == null?const Text("Request not found"): Padding(
                      padding: const EdgeInsets.only(left: 12.0),
                      child: Column(
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
                          Row(
                            children: [
-                             CachedNetworkImage(
-                             imageUrl: request.images.toString(),
-                             imageBuilder: (context, imageProvider) =>
-                             Container(
-                             width: 50.0.w,
-                             height: 50.0.h,
-                             decoration: BoxDecoration(
-                             border: Border.all(
-                             width: 5.0, color:Colors.transparent,),
-                             shape: BoxShape.circle,
-                             image: DecorationImage(
-                             image: imageProvider, fit: BoxFit.cover),
+
+                             InkWell(
+                               onTap: (){
+                                 showFullImage(request.images,context);
+                               },
+                               child: CachedNetworkImage(
+                               imageUrl: request.images.toString(),
+                               imageBuilder: (context, imageProvider) =>
+                               Container(
+                               width: 50.0.w,
+                               height: 50.0.h,
+                               decoration: BoxDecoration(
+                               border: Border.all(
+                               width: 5.0, color:Colors.transparent,),
+                               shape: BoxShape.circle,
+                               image: DecorationImage(
+                               image: imageProvider, fit: BoxFit.cover),
+                               ),
+                               ),
+                               //placeholder: (context, url) => CircularProgressIndicator(),
+                               placeholder: (context, url) => SvgPicture.asset('assets/user.svg'),
+                                errorWidget: (context, url, error) =>
+                                SvgPicture.asset('assets/user.svg'),
+                                ),
                              ),
-                             ),
-                             //placeholder: (context, url) => CircularProgressIndicator(),
-                             placeholder: (context, url) => SvgPicture.asset('assets/user.svg'),
-                              errorWidget: (context, url, error) =>
-                              SvgPicture.asset('assets/user.svg'),
-                              ),
 
                              Text(request.firstName!,style: theme.titleMedium,),
                              Text(request.lastName!,style: theme.titleMedium,),

@@ -1,74 +1,56 @@
 import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Models/testimonyModel.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Donation/Widget/donationWidget.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Testimony/testimonyWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/emptyMenu.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/pagination.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
-class Donations extends ConsumerStatefulWidget {
-  const Donations({Key? key}) : super(key: key);
+class Testimony extends ConsumerStatefulWidget {
+  const Testimony({Key? key}) : super(key: key);
 
   @override
-  _DonationsState createState() => _DonationsState();
+  _TestimonyState createState() => _TestimonyState();
 }
 
-class _DonationsState extends ConsumerState<Donations> {
+class _TestimonyState extends ConsumerState<Testimony> {
 
-  Future<List <PaymentModel>> ?  paymentList;
+  Future<List <TestimonyModel>> ?  testimonyList;
   int count = 0;
-  String type = "all";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    paymentList = ref.read(myChangeNotifierProvider).getPaymentType(type);
+    testimonyList = ref.read(myChangeNotifierProvider).getTestimony();
   }
 
   @override
   void didChangeDependencies() {
     // TODO: implement initState
     super.didChangeDependencies();
-    getType();
-    paymentList = ref.read(myChangeNotifierProvider).getPaymentType(type);
+
+    testimonyList = ref.read(myChangeNotifierProvider).getTestimony();
   }
 
-  getType(){
-    final screenType = ref.watch(screenTypeProvider);
-    switch (screenType) {
-      case allDonation:
-
-        type = 'all';
-        break;
-      case acceptedDonation:
-
-        type = 'accept';
-        break;
-      case newDonation:
-
-        type = 'new';
-        break;
-      default:
-        print('Selected fruit is unknown');
-    }
-  }
 
 
   Widget _needyList(){
     return FutureBuilder(
-        future: paymentList,
-        builder: (BuildContext context, AsyncSnapshot<List<PaymentModel>> snapshot){
+        future: testimonyList,
+        builder: (BuildContext context, AsyncSnapshot<List<TestimonyModel>> snapshot){
           if(snapshot.hasData){
             count = snapshot.data!.length;
 
             if(count == 0){
 
-              return Center(child: Text("No Donation found".toString().toUpperCase(),style: Theme.of(context).textTheme.bodyLarge,));
+              return Center(child: Text("No Testimony found".toString().toUpperCase(),style: Theme.of(context).textTheme.bodyLarge,));
             }
 
-            return DonationWidget(donation : snapshot.data);
+            return TestimonyWidget(testimony : snapshot.data);
           }
           if(snapshot.hasError){
             return const EmptyMenu();
@@ -82,13 +64,13 @@ class _DonationsState extends ConsumerState<Donations> {
     var theme = Theme.of(context).textTheme;
     final myChangeNotifier = ref.watch(myChangeNotifierProvider);
     final screenType = ref.watch(screenTypeProvider);
-    getType();
-    paymentList = ref.read(myChangeNotifierProvider).getPaymentType(type);
+
+    testimonyList = ref.read(myChangeNotifierProvider).getTestimony();
 
     return Column(
       children: [
         spacing(),
-        Text(screenType.toString().toUpperCase(),style: theme.bodyLarge,),
+        Text("Peoples Testimonies".toUpperCase(),style: theme.bodyLarge,),
         spacing(),
         Expanded(
           child: ListView(
@@ -100,15 +82,15 @@ class _DonationsState extends ConsumerState<Donations> {
         spacing(),
         PaginationFunction().nextDocument(documentLength: count,pageNumber: myChangeNotifier.pageNumber,
             loadNextDocument:(){
-              getType();
+
               ref.read(myChangeNotifierProvider).incrementPageNumber();
-              paymentList = ref.read(myChangeNotifierProvider).getPaymentType(type);
+              testimonyList = ref.read(myChangeNotifierProvider).getTestimony();
 
             },
             loadPrevDocument: (){
-              getType();
+
               ref.read(myChangeNotifierProvider).decrementPageNumber();
-              paymentList = ref.read(myChangeNotifierProvider).getPaymentType(type);
+              testimonyList = ref.read(myChangeNotifierProvider).getTestimony();
             }
         ),
         spacing(),

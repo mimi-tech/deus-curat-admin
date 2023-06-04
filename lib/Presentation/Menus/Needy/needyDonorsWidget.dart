@@ -1,28 +1,25 @@
 import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Logic/appNotifier.dart';
+import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Dashboard/highestDonors.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-class NeedyDonors extends StatefulWidget {
+class NeedyDonors extends ConsumerWidget {
   const NeedyDonors({Key? key, required this.needyDetails, this.requestIndex}) : super(key: key);
   final List<NeedyModel>? needyDetails;
   final int? requestIndex;
 
   @override
-  State<NeedyDonors> createState() => _NeedyDonorsState();
-}
-
-class _NeedyDonorsState extends State<NeedyDonors> {
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     var theme = Theme.of(context).textTheme;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return Column(
+    final myChangeNotifier = ref.watch(myChangeNotifierProvider);
+    return myChangeNotifier.requestPayments.isEmpty?const Center(child: Text("There is no payment found for the above request(s)")):Column(
      // mainAxisSize: MainAxisSize.min,
       children: [
 
@@ -30,7 +27,7 @@ class _NeedyDonorsState extends State<NeedyDonors> {
           child: ListView(
             children: [
               ListView.builder(
-                  itemCount: widget.needyDetails!.length,
+                  itemCount: needyDetails!.length,
                   shrinkWrap: true,
                   physics: const BouncingScrollPhysics(),
               itemBuilder: ( context, index){
@@ -38,9 +35,9 @@ class _NeedyDonorsState extends State<NeedyDonors> {
                 width: width * 0.5,
 
                 child: PaginatedDataTable(
-                  header:  Text("${widget.needyDetails![index].firstName} ${widget.needyDetails![index].lastName} Donors",style: theme.displayMedium,
+                  header:  Text("${needyDetails![index].firstName} ${needyDetails![index].lastName} Donors",style: theme.displayMedium,
                   ),
-                  rowsPerPage: Constant.requestPayments[widget.requestIndex??index].length == 0 ? 1:Constant.requestPayments[widget.requestIndex??index].length,
+                  rowsPerPage: myChangeNotifier.requestPayments[requestIndex??index].length == 0 ? 1:myChangeNotifier.requestPayments[requestIndex??index].length,
                   columnSpacing:width * 0.04 ,
                   arrowHeadColor: kYellow,
                   columns:  [
@@ -51,7 +48,7 @@ class _NeedyDonorsState extends State<NeedyDonors> {
                     DataColumn(label: Text('Amount',style: theme.displayMedium,)),
                     DataColumn(label: Text('Date & Time',style: theme.displayMedium,)),
                   ],
-                  source: DataSources(context, Constant.requestPayments[widget.requestIndex??index]),
+                  source: DataSources(context, myChangeNotifier.requestPayments[requestIndex??index]),
                 ),
               );
   }),
@@ -61,13 +58,7 @@ class _NeedyDonorsState extends State<NeedyDonors> {
         spacing(),
       ],
     );}
-
-
-
 }
-
-
-
 
 class _Row {
   _Row(

@@ -10,7 +10,9 @@ const String allDonation = 'All donation';
 const String acceptedDonation = 'Accepted donation';
 const String newDonation = 'New donation';
 const String testimony = 'testimony';
-const String users = 'users';
+const String users = 'All users';
+const String blockedUsers = 'Blocked users';
+const String searchUsers = 'Searched users';
 const String admin = 'admin';
 
 

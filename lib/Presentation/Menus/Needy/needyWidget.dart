@@ -4,8 +4,10 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/appNotifier.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
+import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Presentation/Commons/videoPlayerWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needyDonorsWidget.dart';
+import 'package:deuscurat_admin/Presentation/Request/widgets/createTestimony.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/generalButton.dart';
 import 'package:deuscurat_admin/Utils/progressIndicator.dart';
@@ -35,7 +37,7 @@ class _NeedyWidgetState extends ConsumerState<NeedyWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         spacing(),
-        Text("Approved Needy".toUpperCase(),style: theme.bodyLarge,),
+        Text("Displaying Needy".toUpperCase(),style: theme.bodyLarge,),
         const Divider(),
 
         Wrap(
@@ -57,25 +59,11 @@ class _NeedyWidgetState extends ConsumerState<NeedyWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
-                    SizedBox(
+                    ImageDisplay(
                       height:Responsive.isMobile(context)?height * 0.1:height * 0.2,
                       width: Responsive.isDesktop(context)?width * 0.22:width * 0.7,
-                      child: CachedNetworkImage(
-                        imageUrl:needs.images.toString(),
-                        placeholder: (context, url) =>  Image.network("https://thumbs.dreamstime.com/b/happy-person-arms-raised-outstretched-69762123.jpg",
-                          height:Responsive.isMobile(context)?height * 0.1:height * 0.2,
-                          width: Responsive.isDesktop(context)?width * 0.22:width * 0.7,
-                          fit: BoxFit.cover,),
-                        errorWidget: (context, url, error) =>Image.network("https://thumbs.dreamstime.com/b/happy-person-arms-raised-outstretched-69762123.jpg",
-                          height:Responsive.isMobile(context)?height * 0.1:height * 0.2,
-                          width: Responsive.isDesktop(context)?width * 0.22:width * 0.7,
-                          fit: BoxFit.cover,),
-                        fit: BoxFit.cover,
-
-
-                      ),
+                      imageUrl:needs.images,
                     ),
-
 
                     Container(
                       color: kWhiteColor,
@@ -219,25 +207,31 @@ class _NeedyWidgetState extends ConsumerState<NeedyWidget> {
                                     widget.needyDetails!.remove(needs);
                                   });
 
-                                 }, icon: const Icon(Icons.delete,color: kRedColor,)),
+                                 }, icon: const Icon(Icons.remove_circle_outline,color: kRedColor,)),
                               ],
                             ),
                             //SizedBox(height: 3.sp,),
-                            Center(
-                              child: GeneralButton(title: "Watch video",tapStudiesButton: (){
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) =>  VideoPlayerWidget(
-                                    videoUrl: needs.video??"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
-                                  )),
-                                );
-                              }),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GeneralButton(title: "Watch video",tapStudiesButton: (){
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) =>  VideoPlayerWidget(
+                                      videoUrl: needs.video??"https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4",
+                                    )),
+                                  );
+                                }),
+                                myChangeNotifier.loading == true
+                                ?const LoadingButton()
+                                :GeneralButton(title: "Create Testimony", tapStudiesButton: (){CreateTestimonyDialog().showCreateTestimonyDialog(context: context,needy:needs);}),
+
+    ],
                             ),
                           ],
                         ),
                       ),
                     ),
-
                   ],
                 ),
 

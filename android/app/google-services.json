@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959794755644",
+    "project_id": "deuscurat-admin",
+    "storage_bucket": "deuscurat-admin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959794755644:android:6c0426a85b73512778eb39",
+        "android_client_info": {
+          "package_name": "co.miriamly.deuscurat_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959794755644-eqboqsi1kj226fg5r1a5c7mci7co8lk3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxQCQEw6VHpTrUuO17SmGvcvsGYeH3vAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959794755644-eqboqsi1kj226fg5r1a5c7mci7co8lk3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
