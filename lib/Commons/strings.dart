@@ -13,7 +13,8 @@ const String testimony = 'testimony';
 const String users = 'All users';
 const String blockedUsers = 'Blocked users';
 const String searchUsers = 'Searched users';
-const String admin = 'admin';
+const String admin = 'Admin';
+const String mail = 'Mail';
 
 
 const String approveTooltip = 'You are about to approve this request, The user will be notified';

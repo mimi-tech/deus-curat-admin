@@ -656,4 +656,94 @@ class Repository{
       return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
     }
   }
+  static Future<Object> createAdmin(adminEmail) async {
+    try {
+      String token = await UserPreferences().getToken();
+      var url = Uri.parse("$baseUrl/users/create-admin");
+       var body = json.encode({
+         "adminEmail":adminEmail
+       });
+      Response response = await https.put(url, headers: {'Content-Type': 'application/json','authorization':token},body: body);
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded,message:jsonDecoded['message'] );
+      }
+      print(jsonDecoded['message']);
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
+
+
+  static Future<Object> support(pageNumber) async {
+    try {
+      String token = await UserPreferences().getToken();
+      var url = Uri.parse("$baseUrl/commons/get-support?page=$pageNumber");
+
+      Response response = await https.get(url, headers: {'Content-Type': 'application/json','authorization':token});
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded);
+      }
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
+
+
+  static Future<Object> deleteSupport(supportId) async {
+    try {
+      String token = await UserPreferences().getToken();
+      var url = Uri.parse("$baseUrl/commons/delete-support");
+      var body = json.encode({
+        "supportId":supportId
+      });
+      Response response = await https.delete(url, headers: {'Content-Type': 'application/json','authorization':token},body: body);
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded,message:jsonDecoded['message'] );
+      }
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
 }

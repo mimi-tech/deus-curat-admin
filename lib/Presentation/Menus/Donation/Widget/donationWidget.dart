@@ -54,11 +54,10 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                     gender: data.gender,
                     createdAt: data.createdAt,
                     phoneNumber: data.phoneNumber,
-                    amount: data.amount,
+                    amount: data.amount.toString(),
                     accepted: data.accepted,
+                   prove: data.prove,
                  ),
-
-
 
                    request == null?const Text("Request not found"): Padding(
                      padding: const EdgeInsets.only(left: 12.0),

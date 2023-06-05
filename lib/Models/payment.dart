@@ -11,6 +11,7 @@ class PaymentModel {
   dynamic createdAt;
   String? firstName;
   String? lastName;
+  String? prove;
 
   dynamic needyName;
   dynamic needyGender;
@@ -39,6 +40,7 @@ class PaymentModel {
     this.needyAddress,
     this.needyTitle,
     this.needyImage,
+    this.prove,
   });
   // now create converter
 
@@ -60,6 +62,7 @@ class PaymentModel {
       amount: responseData['amount'] ?? 0,
       accepted: responseData['accepted'] ?? false,
       userAuthId: responseData['userAuthId'] ?? "",
+      prove: responseData['prove'] ?? "",
 
     );
   }
@@ -82,5 +85,6 @@ class PaymentModel {
       "needyTitle":needyTitle,
       "needyImage":needyImage,
       "userAuthId":userAuthId,
+      "prove":prove,
     };
   }}

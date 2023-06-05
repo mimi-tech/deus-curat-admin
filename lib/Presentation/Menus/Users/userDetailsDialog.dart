@@ -34,6 +34,7 @@ class UserDetailsDialog{
               phoneNumber: details[index].phoneNumber.toString(),
               amount: details[index].amount.toString(),
               accepted: details[index].accepted,
+              prove: details[index].prove,
 
           ),
 

@@ -4,6 +4,7 @@ import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/commonModel.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Models/supportModel.dart';
 import 'package:deuscurat_admin/Models/testimonyModel.dart';
 import 'package:deuscurat_admin/Models/userModel.dart';
 import 'package:deuscurat_admin/Services/apiConstants.dart';
@@ -381,5 +382,48 @@ class MyChangeNotifier extends ChangeNotifier {
 
       }
 
+  }
+
+  getCreateAdmin(adminEmail) async {
+    setLoading(true);
+    var response = await Repository.createAdmin(adminEmail);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+      getUsers("admin");
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
+  }
+
+  Future<List<SupportModel>> getSupport() async {
+    var response = await Repository.support(pageNumber);
+    if (response is Success) {
+      List<dynamic> result = response.data!["data"];
+      final support = result.map((json) => SupportModel.fromJson(json)).toList();
+      return support;
+
+    }
+    return [];
+  }
+
+  getDeleteSupport(supportId) async {
+    setLoading(true);
+    var response = await Repository.deleteSupport(supportId);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
   }
 }

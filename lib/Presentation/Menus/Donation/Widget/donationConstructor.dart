@@ -1,4 +1,5 @@
 import 'package:deuscurat_admin/Commons/colors.dart';
+import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/currency%20Format.dart';
 import 'package:deuscurat_admin/Utils/generalButton.dart';
@@ -15,6 +16,7 @@ class DonationConstructor extends StatelessWidget {
   this.gender,
   this.amount,
   this.accepted,
+    required this.prove
  
   }) : super(key: key);
 final String? firstName;
@@ -24,6 +26,7 @@ final dynamic createdAt;
 final String? gender;
 final String? amount;
 final bool? accepted;
+final String? prove;
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context).textTheme;
@@ -56,13 +59,17 @@ final bool? accepted;
             Text(amount.toString(),style: theme.bodySmall),
             spacing(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 GeneralButton(title: "Delete", tapStudiesButton: (){},color: kRedColor,),
                 const SizedBox(width: 10,),
                 accepted == true
                     ?const Icon(Icons.check,color: kGreenColor)
                     :GeneralButton(title: "Accept", tapStudiesButton: (){}),
+
+                InkWell(
+                    onTap: (){showFullImage(prove,context);},
+                    child: Text("Prove",style: theme.titleSmall!.copyWith(color: kLightBlue),))
               ],
             ),
           ],

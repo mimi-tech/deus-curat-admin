@@ -180,9 +180,26 @@ class OpenMenu extends ConsumerWidget {
               ],
             ),
           ),
+
           ListTile(
+            onTap: (){
+              ref.read(requestTypeProvider.notifier).state = false;
+              ref.read(usersTypeProvider.notifier).state = false;
+              ref.read(screenTypeProvider.notifier).state = admin;
+            },
             leading: const Icon(Icons.admin_panel_settings,color: kDrawerTextColor,),
             title: Text("Admin",style: theme.titleSmall,),
+          ),
+
+
+          ListTile(
+            onTap: (){
+              ref.read(requestTypeProvider.notifier).state = false;
+              ref.read(usersTypeProvider.notifier).state = false;
+              ref.read(screenTypeProvider.notifier).state = mail;
+            },
+            leading: const Icon(Icons.mail,color: kDrawerTextColor,),
+            title: Text("Mail",style: theme.titleSmall,),
           ),
           spacing(),
         ],

@@ -1,24 +1,40 @@
 import 'package:deuscurat_admin/Commons/colors.dart';
+import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Models/supportModel.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Dashboard/dashboard.dart';
+import 'package:deuscurat_admin/Presentation/Menus/emptyMenu.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/currency%20Format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class HighestDonors extends StatelessWidget {
-   const HighestDonors({Key? key,required this.donors, required this.testimonyCount,required this.requestCount}) : super(key: key);
+class HighestDonors extends ConsumerStatefulWidget {
+    HighestDonors({Key? key,required this.donors, required this.testimonyCount,required this.requestCount}) : super(key: key);
     final List<PaymentModel> ? donors;
     final dynamic testimonyCount;
     final dynamic requestCount;
 
   @override
+    _HighestDonorsState createState() => _HighestDonorsState();
+}
+
+class _HighestDonorsState extends ConsumerState<HighestDonors> {
+   Future<List <SupportModel>> ?  supportList;
+   @override
+   void initState() {
+     // TODO: implement initState
+     super.initState();
+     supportList = ref.read(myChangeNotifierProvider).getSupport();
+   }
+  @override
   Widget build(BuildContext context) {
     List<double> amount = [];
 
-    for(int i = 0; i < donors!.length; i++){
-      amount.add(donors![i].amount);
+    for(int i = 0; i < widget.donors!.length; i++){
+      amount.add(widget.donors![i].amount);
     }
     var theme = Theme.of(context).textTheme;
     double width = MediaQuery.of(context).size.width;
@@ -36,7 +52,7 @@ class HighestDonors extends StatelessWidget {
               width: width * 0.5,
               child: PaginatedDataTable(
                 header:  Text('Highest Donors',style: theme.displayMedium,),
-                rowsPerPage: donors!.length,
+                rowsPerPage: widget.donors!.length,
                 columnSpacing:width * 0.04 ,
                 arrowHeadColor: kYellow,
                 columns:  [
@@ -47,33 +63,49 @@ class HighestDonors extends StatelessWidget {
                   DataColumn(label: Text('Amount',style: theme.displayMedium,)),
                   DataColumn(label: Text('Date & Time',style: theme.displayMedium,)),
                 ],
-                source: DataSource(context, donors),
+                source: DataSource(context, widget.donors),
               ),
             ),
 
             SizedBox(
-              height: height * 0.3,
+              height: height * 0.4,
               width: width * 0.17,
-        child: Container(color: kOrangeColor,),
-        //       child: SfCartesianChart(
-        //         backgroundColor: kGreenColor,
-        //         borderColor: Colors.purpleAccent,
-        //         plotAreaBackgroundColor: Colors.pinkAccent,
-        //         plotAreaBorderColor: Colors.white,
-        //         primaryXAxis: CategoryAxis(),
-        //         title: ChartTitle(text: 'Highest Donors'),
-        //         tooltipBehavior: TooltipBehavior(enable: true),
-        //         series: <ChartSeries>[
-        //           LineSeries<double, String>(
-        //             dataSource: amount,
-        //             xValueMapper: (value, _) => amount.indexOf(value).toString(),
-        //             yValueMapper: (value, _) => value,
-        //             name: "Donors",
-        //             dataLabelSettings: DataLabelSettings(isVisible: true)
-        //
-        // ),
-        //         ],
-        //       ),
+        child: Container(
+
+        color: kWhiteColor.withOpacity(0.5),
+        child: FutureBuilder(
+            future: supportList,
+            builder: (BuildContext context, AsyncSnapshot<List<SupportModel>> snapshot){
+              if(snapshot.hasData){
+
+                List<SupportModel>? support = snapshot.data;
+                return ListView(
+                  children: [
+                    spacing(),
+                    Center(child: Text("Recent Mail(s)".toUpperCase(),style: theme.displayMedium,)),
+                    Divider(),
+                    for(int i = 0; i < support!.length; i++)
+
+                          Column(
+                            children: [
+                              Text(support[i].firstName.toString(),style: theme.displayMedium),
+                              Text(support[i].header,style: theme.displayMedium!.copyWith(color: kRadioColor)),
+                              Text(DateFormat("EEEE,MM,d, yyyy, h:ma").format(DateTime.parse(support[i].createdAt.toString())),style: theme.displayMedium!.copyWith(color: kDarkRedColor)),
+                              spacing(),
+                            ],
+                          ),
+
+                  ],
+                );
+              }
+              if(snapshot.hasError){
+                return const EmptyMenu();
+              }
+              return const Center(child: CircularProgressIndicator());
+            }
+        ),
+        ),
+
               ),
 
 
@@ -87,9 +119,9 @@ class HighestDonors extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
 
-            CardWidget(title:"Testimony Count",amount:testimonyCount,onTap: (){},),
-            CardWidget(title:"Request Count",amount:requestCount,onTap: (){},),
-            CardWidget(title:"No Of Users",amount:requestCount,onTap: (){},)
+            CardWidget(title:"Testimony Count",amount:widget.testimonyCount,onTap: (){},),
+            CardWidget(title:"Request Count",amount:widget.requestCount,onTap: (){},),
+            CardWidget(title:"No Of Users",amount:widget.requestCount,onTap: (){},)
 
           ],
         ),

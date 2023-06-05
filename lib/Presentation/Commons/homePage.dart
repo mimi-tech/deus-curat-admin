@@ -4,8 +4,10 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/sharedPreference.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Presentation/Commons/appLogo.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Admin/allAdmins.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Dashboard/dashboardWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Donation/donations.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Mail/allMails.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needy.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Testimony/testimony.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Users/allUsers.dart';
@@ -94,6 +96,14 @@ class HomePage extends HookConsumerWidget {
 
         case searchUsers:
           screen = const SearchedUsers();
+          break;
+
+        case admin:
+          screen = const AllAdmins();
+          break;
+
+        case mail:
+          screen = const AllMails();
           break;
 
         default:
