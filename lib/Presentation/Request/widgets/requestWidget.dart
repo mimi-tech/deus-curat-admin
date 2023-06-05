@@ -5,6 +5,7 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/appNotifier.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
+import 'package:deuscurat_admin/Presentation/Commons/displayVideo.dart';
 import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Needy/needyDonorsWidget.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/createTestimony.dart';
@@ -42,7 +43,8 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
     final screenType = ref.watch(screenTypeProvider);
 
     var theme = Theme.of(context).textTheme;
-    return myChangeNotifier.requestPayments.isEmpty?const ShowProgressIndicator(): ListView.builder(
+    return myChangeNotifier.requestPayments.isEmpty?const ShowProgressIndicator():
+    myChangeNotifier.loading == true?const ShowProgressIndicator(): ListView.builder(
         itemCount: widget.needy!.length,
         shrinkWrap: true,
         physics: const BouncingScrollPhysics(),
@@ -75,15 +77,17 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
               Stack(
                 //alignment: Alignment.center,
                 children: <Widget>[
-                  Container(
-                    color: kBlackColor,
-                      width: widthSize,
-                      height: heightSize,),
+                  DisplayVideo(
+                    videoUrl: widget.needy![index].video,
+                    width: widthSize,
+                    height: heightSize,
+                  ),
+
                   const Positioned(
                     left: 0,
                     right: 0,
                     bottom: 0,
-                    top: 100,
+                    top: 5,
                     child: Center(
                       child: InkWell(
                         child:Icon(Icons.play_arrow,color: kWhiteColor,),
@@ -202,18 +206,18 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Header(title: "Approve",onTap: (){
-                ref.read(myChangeNotifierProvider).getUpdateNeedStatus(widget.needy![index].userAuthId,'approve');
-                setState(() {
-                  widget.needy!.removeAt(index);
-                });
+              Header(title: widget.needy![index].approvalStatus == true?"Disapprove":"Approve",onTap: (){
+                ref.read(myChangeNotifierProvider).getUpdateNeedStatus(widget.needy![index].userAuthId,'approval');
+                // setState(() {
+                //   widget.needy!.removeAt(index);
+                // });
               },tooltip: approveTooltip,),
               const VerticalDivider(),
-              Header(title: "Reject",onTap: (){
+              Header(title: widget.needy![index].rejectStatus == true?"Accept":"Reject",onTap: (){
                 ref.read(myChangeNotifierProvider).getUpdateNeedStatus(widget.needy![index].userAuthId,'reject');
-                setState(() {
-                  widget.needy!.removeAt(index);
-                });
+                // setState(() {
+                //   widget.needy!.removeAt(index);
+                // });
 
               },tooltip: rejectTooltip,),
               const VerticalDivider(),
@@ -225,10 +229,10 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
 
               },tooltip: deleteTooltip,),
               const VerticalDivider(),
-              Header(title: "Display",onTap: (){
+              Header(title: widget.needy![index].displayStatus == true?"Hide":"Display",onTap: (){
                 ref.read(myChangeNotifierProvider).getUpdateNeedStatus(widget.needy![index].userAuthId,'display');
                 setState(() {
-                  widget.needy!.removeAt(index);
+                  //widget.needy!.removeAt(index);
                   myChangeNotifier.requestPayments.removeAt(index);
                 });
 
@@ -282,6 +286,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
             ),
           ],
         ),
+        spacing(),
         screenType == displayedRequest
 
         ?myChangeNotifier.loading == true

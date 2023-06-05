@@ -108,6 +108,10 @@ class MyChangeNotifier extends ChangeNotifier {
 
   String _errorText = "";
   String get errorText => _errorText;
+
+  bool _creatingTestimonyLoading = false;
+  bool get creatingTestimonyLoading => _creatingTestimonyLoading;
+
   void incrementPageNumber(){
     _pageNumber++;
     notifyListeners();
@@ -246,19 +250,23 @@ class MyChangeNotifier extends ChangeNotifier {
   }
 
   getCreateTestimony(imagesAfter, videoAfter, userAuthId, testimonyTitle, testimonyDesc) async {
-    setLoading(true);
-    var imageUrl = await Repository.uploadFileFirebase(imagesAfter);
+    _creatingTestimonyLoading = true;
+   setLoading(true);
+   var imageUrl = await Repository.uploadFileFirebase(imagesAfter);
+
     var videoUrl = await Repository.uploadFileFirebase(videoAfter,true);
 
     var response = await Repository.createTestimony(imageUrl, videoUrl, userAuthId, testimonyTitle, testimonyDesc);
     if (response is Success) {
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
-      setLoading(false);
+      _creatingTestimonyLoading = false;
+      setLoading(true);
     }
 
     if(response is Failure){
       FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
-      setLoading(false);
+      _creatingTestimonyLoading = false;
+      setLoading(true);
     }
   }
   getPayment([String? requestId]) async {
@@ -391,6 +399,22 @@ class MyChangeNotifier extends ChangeNotifier {
       setLoading(false);
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
       getUsers("admin");
+    }
+    if(response is Failure){
+
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
+
+    }
+  }
+
+  getUpdatePayment(requestAuthId,userAuthId,paymentId,amount) async {
+    setLoading(true);
+    var response = await Repository.updatePayment(requestAuthId,userAuthId,paymentId,amount);
+    if (response is Success) {
+      setLoading(false);
+      FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
+
     }
     if(response is Failure){
 

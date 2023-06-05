@@ -1,4 +1,6 @@
 import 'package:deuscurat_admin/Commons/colors.dart';
+import 'package:deuscurat_admin/Logic/stateProvider.dart';
+import 'package:deuscurat_admin/Models/payment.dart';
 import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/currency%20Format.dart';
@@ -6,8 +8,9 @@ import 'package:deuscurat_admin/Utils/generalButton.dart';
 import 'package:deuscurat_admin/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-class DonationConstructor extends StatelessWidget {
+class DonationConstructor extends ConsumerWidget {
   const DonationConstructor({Key? key,
   this.firstName,
   this.lastName,
@@ -16,7 +19,9 @@ class DonationConstructor extends StatelessWidget {
   this.gender,
   this.amount,
   this.accepted,
-    required this.prove
+    required this.prove,
+    required this.data
+
  
   }) : super(key: key);
 final String? firstName;
@@ -27,12 +32,14 @@ final String? gender;
 final String? amount;
 final bool? accepted;
 final String? prove;
+final PaymentModel? data;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     var theme = Theme.of(context).textTheme;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     double widthSize = width * 0.3;
+    final myChangeNotifier = ref.watch(myChangeNotifierProvider);
     return Container(
       width:!Responsive.isDesktop(context)?width:widthSize,
       color: kWhiteColor,
@@ -65,7 +72,10 @@ final String? prove;
                 const SizedBox(width: 10,),
                 accepted == true
                     ?const Icon(Icons.check,color: kGreenColor)
-                    :GeneralButton(title: "Accept", tapStudiesButton: (){}),
+                    :GeneralButton(title: "Accept", tapStudiesButton: (){
+                      print(data!.requestAuthId);
+                      myChangeNotifier.getUpdatePayment(data!.requestId, data!.userAuthId, data!.id, amount);
+                }),
 
                 InkWell(
                     onTap: (){showFullImage(prove,context);},

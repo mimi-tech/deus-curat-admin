@@ -1,5 +1,6 @@
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/userModel.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Admin/adminWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Admin/createAdmin.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Users/usersWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/emptyMenu.dart';
@@ -49,7 +50,7 @@ class _AllAdminsState extends ConsumerState<AllAdmins> {
               return Center(child: Text("No User found".toString().toUpperCase(),style: Theme.of(context).textTheme.bodyLarge,));
             }
 
-            return UsersWidget(users : snapshot.data);
+            return AdminWidget(adminUsers : snapshot.data);
           }
           if(snapshot.hasError){
             return const EmptyMenu();

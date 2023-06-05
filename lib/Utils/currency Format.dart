@@ -1,3 +1,4 @@
+import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:intl/intl.dart';
 
 formatCurrency(price) {
@@ -9,7 +10,7 @@ formatCurrency(price) {
     decimalDigits: 2,
   ).format(price);
 
-  return "#$formattedMoney";// $1,234.56
+  return "$nairaSign$formattedMoney";// $1,234.56
 }
 
 

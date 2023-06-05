@@ -83,6 +83,7 @@ class NeedyModel {
       disLikeCount: responseData['disLikeCount']?? 0,
       amountNeeded: responseData['amountNeeded'] ?? "",
       amountPaid: responseData['amountPaid'] ?? "",
+
       approvedDate: responseData['approvedDate'] ?? DateTime.now().toString(),
 
     );
@@ -115,5 +116,6 @@ class NeedyModel {
       "amountNeeded":amountNeeded,
       "amountPaid":amountPaid,
       "approvedDate":approvedDate,
+
     };
   }}

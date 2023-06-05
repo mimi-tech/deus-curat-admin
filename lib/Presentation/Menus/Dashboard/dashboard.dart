@@ -4,6 +4,7 @@ import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Models/commonModel.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/currency%20Format.dart';
+import 'package:deuscurat_admin/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
@@ -31,9 +32,20 @@ class DashBoard extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.start,
           children: [
             CardWidget(title: "Total Donation",color: kOrangeColor.withOpacity(0.2),amount: commons![0].totalDonation,),
-            CardWidget(title: "Yearly Donation",color: Colors.purpleAccent.withOpacity(0.2),amount: commons![0].yearlyDonation,),
-            CardWidget(title: "This Month Donation",color: Colors.pink.withOpacity(0.2),amount: commons![0].monthlyDonation,),
-            CardWidget(title: "Today",color: kLightGreen,amount: commons![0].dailyDonation,)
+            CardWidget(title: "Yearly Donation",color: Colors.purpleAccent.withOpacity(0.2),amount: commons![0].year == year ?commons![0].yearlyDonation:0,),
+            CardWidget(title: "This Month Donation",color: Colors.pink.withOpacity(0.2),amount:
+            commons![0].year == year && commons![0].month == month
+            ?commons![0].monthlyDonation:0,),
+            CardWidget(title: "This Week Donation",color: kLightGreen,amount:
+            commons![0].year == year && commons![0].week == week
+                ?commons![0].weeklyDonation
+                :0,
+            ),
+            CardWidget(title: "Today",color: kLightGreen,amount:
+            commons![0].year == year && commons![0].month == month && commons![0].day == day
+            ?commons![0].dailyDonation
+              :0,
+            )
           ],
 
 
@@ -82,7 +94,7 @@ final dynamic amount;
 
               SizedBox(
                 height: 100,
-                width: width * 0.17,
+                width: Responsive.isDesktop(context)?width * 0.17:width,
                 child: SfSparkAreaChart(
                   data: numbers,
                   axisLineColor: Colors.grey,

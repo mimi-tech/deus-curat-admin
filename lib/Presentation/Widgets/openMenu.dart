@@ -80,6 +80,12 @@ class OpenMenu extends ConsumerWidget {
                   title: Text("New request(s)",style: theme.titleSmall,),
                 ),
                 ListTile(
+                  onTap:()=>ref.read(screenTypeProvider.notifier).state = approvedRequest,
+                  leading:  Icon(Icons.help_center_outlined,color: kDrawerTextColor,size: 15.sp),
+                  title: Text("Approved request(s)",style: theme.titleSmall,),
+                ),
+
+                ListTile(
                   onTap:()=>ref.read(screenTypeProvider.notifier).state = rejectedRequest,
                   leading:  Icon(Icons.help_center_outlined,color: kDrawerTextColor,size: 15.sp),
                   title: Text("Rejected request(s)",style: theme.titleSmall,),

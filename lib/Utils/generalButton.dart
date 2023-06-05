@@ -75,7 +75,7 @@ class TabButton extends StatelessWidget {
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 50.0.sp,vertical: 15.0.sp),
+            EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
           ),
           backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),
@@ -105,7 +105,7 @@ class MobileButton extends StatelessWidget {
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 50.0.sp,vertical: 15.0.sp),
+            EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
           ),
           backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),

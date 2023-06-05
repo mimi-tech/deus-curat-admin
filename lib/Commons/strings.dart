@@ -6,6 +6,7 @@ const String allRequest = 'All request';
 const String rejectedRequest = 'Rejected request';
 const String displayedRequest = 'Display request';
 const String shownRequest = 'Shown request';
+const String approvedRequest = 'Approved request';
 const String allDonation = 'All donation';
 const String acceptedDonation = 'Accepted donation';
 const String newDonation = 'New donation';

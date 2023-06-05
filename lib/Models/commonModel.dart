@@ -14,6 +14,7 @@ class CommonsModel {
   dynamic week;
   dynamic month;
   dynamic year;
+  dynamic usersCount;
 
 
   CommonsModel({
@@ -32,6 +33,7 @@ class CommonsModel {
     this.week,
     this.month,
     this.year,
+    this.usersCount
 
   });
   // now create converter
@@ -52,6 +54,7 @@ class CommonsModel {
       week: responseData['week'] ?? 0,
       month: responseData['month'] ?? 0,
       year: responseData['year'] ?? 0,
+      usersCount: responseData['usersCount'] ?? 0,
     );
   }
   Map<String, dynamic> toJson() {
@@ -70,5 +73,6 @@ class CommonsModel {
       "week":week,
       "month":month,
       "year":year,
+      "usersCount":usersCount
     };
   }}

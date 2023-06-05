@@ -1,3 +1,4 @@
+import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Utils/toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,7 @@ class PickingFiles{
           FlutterToastFunction().getToast(title: "Image size is more than 10Mb",color: Colors.red);
           return null;
         }
-        // print("eeee${result.files.single}");
-        //print("dddd${result}");
+        FlutterToastFunction().getToast(title: "Image picked successfully",color: kGreenColor);
         return result;
       } else {
         return null;
@@ -40,6 +40,7 @@ class PickingFiles{
           FlutterToastFunction().getToast(title: "Video size is more than 10Mb",color: Colors.red);
           return null;
         }
+        FlutterToastFunction().getToast(title: "Video picked successfully",color: kGreenColor);
         return result;
       } else {
         return null;

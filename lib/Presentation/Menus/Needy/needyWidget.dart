@@ -61,14 +61,14 @@ class _NeedyWidgetState extends ConsumerState<NeedyWidget> {
                   children: [
                     ImageDisplay(
                       height:Responsive.isMobile(context)?height * 0.1:height * 0.2,
-                      width: Responsive.isDesktop(context)?width * 0.22:width * 0.7,
+                      width: Responsive.isDesktop(context)?width * 0.22:width,
                       imageUrl:needs.images,
                     ),
 
                     Container(
                       color: kWhiteColor,
-                      width: Responsive.isDesktop(context)?width * 0.22:width * 0.7,
-                      height: Responsive.isTablet(context)?height * 0.65:height * 0.5,
+                      width: Responsive.isDesktop(context)?width * 0.22:width,
+                      height: Responsive.isTablet(context)?height * 0.65:height * 0.7,
                       child: Padding(
                         padding:  EdgeInsets.symmetric(horizontal: 3.0.sp),
                         child: Column(

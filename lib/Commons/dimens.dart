@@ -2,7 +2,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
  double kFontSize18 = 18.0.sp;
  double kFontSize12 = 12.0.sp;
- double kFontSize10 = 10.0.sp;
+ double kFontSize10 = 12.0.sp;
  double kFontSize24 = 24.0.sp;
  double kFontSize16 = 16.0.sp;
  double kFontSize13 = 13.0.sp;

@@ -4,6 +4,7 @@ import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Commons/dimens.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/payment.dart';
+import 'package:deuscurat_admin/Presentation/Commons/displayVideo.dart';
 import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Donation/Widget/donationConstructor.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/requestWidget.dart';
@@ -57,6 +58,7 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                     amount: data.amount.toString(),
                     accepted: data.accepted,
                    prove: data.prove,
+                   data: data,
                  ),
 
                    request == null?const Text("Request not found"): Padding(
@@ -92,8 +94,14 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                                 ),
                              ),
 
-                             Text(request.firstName!,style: theme.titleMedium,),
-                             Text(request.lastName!,style: theme.titleMedium,),
+                             Column(
+                               crossAxisAlignment: CrossAxisAlignment.start,
+                               children: [
+                                 Text(request.firstName!,style: theme.titleMedium,),
+                                 Text(request.lastName!,style: theme.titleMedium,),
+                               ],
+                             ),
+
                            ],
                          ),
                          SizedBox(height: 2.h,),
@@ -160,7 +168,8 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                            child: Column(
                              crossAxisAlignment: CrossAxisAlignment.start,
                              children: [
-                               Text(request.title.toString(),style: theme.displayMedium),
+                               Text(request.title.toString(),style: theme.bodyLarge),
+                               SizedBox(height: 10.0.h,),
                                ReadMoreText(request.description.toString(),
                                  trimLines: 13,
                                  style:theme.headlineMedium,
@@ -180,10 +189,11 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                              Stack(
                                //alignment: Alignment.center,
                                children: <Widget>[
-                                 Container(
-                                   color: kBlackColor,
+                                 DisplayVideo(
+                                   videoUrl: request.video,
                                    width: 100,
-                                   height: 100,),
+                                   height: 100,
+                                 ),
 
 
                                  const Positioned(
@@ -202,29 +212,7 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                              ),
                              SizedBox(width: 10.w,),
 
-                             Stack(
-                               //alignment: Alignment.center,
-                               children: <Widget>[
-                                 Container(
-                                   color: kBlackColor,
-                                   width: 100,
-                                   height: 100,),
-
-
-                                 const Positioned(
-                                   left: 0,
-                                   right: 0,
-                                   bottom: 0,
-                                   top: 10,
-                                   child: Center(
-                                     child: InkWell(
-                                       child:Icon(Icons.play_arrow,color: kWhiteColor,),
-                                     ),
-                                   ),
-                                 )
-
-                               ],
-                             ),
+                             ImageDisplay(imageUrl: request.images,height: 100,width: 100,)
                            ],
                          ),
                          spacing(),

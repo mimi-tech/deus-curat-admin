@@ -388,6 +388,7 @@ class Repository{
 
   static Future<dynamic> uploadFileFirebase(file, [bool? isVideo]) async {
     try {
+      print("wdjwhw");
       firabase_storage.UploadTask uploadTask;
 
       firabase_storage.Reference ref = firabase_storage.FirebaseStorage.instance
@@ -406,6 +407,7 @@ class Repository{
       var  imageUrl = await ref.getDownloadURL();
       return imageUrl;
     } catch (e) {
+      print("lllll$e");
       return false;
     }
 
@@ -489,7 +491,7 @@ class Repository{
 
       if (jsonDecoded['status'] == true) {
 
-        return Success(response: response,data: jsonDecoded);
+        return Success(response: response,data: jsonDecoded,message: jsonDecoded['message']);
       }
       return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
     } on HttpException {
@@ -746,4 +748,38 @@ class Repository{
       return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
     }
   }
+
+  static Future<Object> updatePayment(requestAuthId,userAuthId,paymentId,amount) async {
+    try {
+      String token = await UserPreferences().getToken();
+      var url = Uri.parse("$baseUrl/payment/update-payment");
+      var body = json.encode({
+        "requestAuthId": requestAuthId,
+        "userAuthId": userAuthId,
+        "paymentId": paymentId,
+        "amount": amount
+      });
+      Response response = await https.put(url, headers: {'Content-Type': 'application/json','authorization':token},body: body);
+      final Map<String, dynamic> jsonDecoded = json.decode(response.body);
+
+      if (jsonDecoded['status'] == true) {
+
+        return Success(response: response,data: jsonDecoded,message:jsonDecoded['message'] );
+      }
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: jsonDecoded['message']);
+    } on HttpException {
+      return Failure(code: NO_INTERNET, errorResponse: "Internal server error");
+    } on FormatException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "Invalid format");
+    } on SocketException {
+      return Failure(code: USER_INVALID_RESPONSE, errorResponse: "No internet connection");
+    } on TimeoutException{
+      return Failure(code: TIME_OUT, errorResponse: "Time out error");
+    }
+
+    catch (e) {
+      return Failure(code: UNKNOWN_ERROR, errorResponse: e.toString());
+    }
+  }
+
 }

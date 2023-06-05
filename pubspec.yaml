@@ -54,6 +54,7 @@ dependencies:
   modal_progress_hud_nsn: ^0.3.0
   firebase_storage: ^11.1.2
   firebase_core: ^2.7.0
+  jiffy: ^6.2.1
 
 dev_dependencies:
   flutter_test:

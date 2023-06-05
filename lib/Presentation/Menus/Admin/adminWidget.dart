@@ -72,7 +72,7 @@ class AdminWidget extends ConsumerWidget {
 
                 const VerticalDivider(),
                 InkWell(
-                    onTap:(){myChangeNotifier.getBlockUser(data.userId);},
+                    onTap:(){myChangeNotifier.getCreateAdmin(data.email);},
                     child: Text("Remove admin",style: TextStyle(color: kLightBlue,fontSize: kFontSize12),)),
                 const VerticalDivider(),
                 InkWell(
@@ -101,7 +101,8 @@ class AdminWidget extends ConsumerWidget {
                     :Text("No contribution")
               ],
             ),
-          )
+          ),
+          spacing(),
         ],
       ),
     );

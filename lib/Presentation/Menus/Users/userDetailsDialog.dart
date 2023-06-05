@@ -35,6 +35,7 @@ class UserDetailsDialog{
               amount: details[index].amount.toString(),
               accepted: details[index].accepted,
               prove: details[index].prove,
+              data: details[index],
 
           ),
 

@@ -4,6 +4,7 @@ import 'package:deuscurat_admin/Commons/strings.dart';
 import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/needyModel.dart';
 import 'package:deuscurat_admin/Models/userModel.dart';
+import 'package:deuscurat_admin/Presentation/Commons/displayVideo.dart';
 import 'package:deuscurat_admin/Presentation/Commons/imageDisplay.dart';
 import 'package:deuscurat_admin/Presentation/Menus/emptyMenu.dart';
 import 'package:deuscurat_admin/Presentation/Request/widgets/editNeedyDetails.dart';
@@ -12,6 +13,7 @@ import 'package:deuscurat_admin/Utils/constant.dart';
 import 'package:deuscurat_admin/Utils/progressIndicator.dart';
 import 'package:deuscurat_admin/Utils/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:readmore/readmore.dart';
@@ -25,6 +27,7 @@ class UsersRequest extends ConsumerWidget {
     double widthSize = width * 0.1;
     double heightSize = height * 0.2;
     var theme = Theme.of(context).textTheme;
+    double iconSize = 15.0.sp;
     final myChangeNotifier = ref.watch(myChangeNotifierProvider);
     return user!.requestCount >= 1 ?FutureBuilder<NeedyModel>(
       future: myChangeNotifier.getARequest(user!.userId), // The future to wait for
@@ -53,10 +56,11 @@ class UsersRequest extends ConsumerWidget {
               Stack(
                 //alignment: Alignment.center,
                 children: <Widget>[
-                  Container(
-                    color: kBlackColor,
+                  DisplayVideo(
+                    videoUrl: users.video,
                     width: widthSize,
-                    height: heightSize,),
+                    height: heightSize,
+                  ),
                   const Positioned(
                     left: 0,
                     right: 0,
@@ -101,7 +105,7 @@ class UsersRequest extends ConsumerWidget {
                   IconButton(onPressed: (){
 
                   }, icon:const Icon(Icons.thumb_down_alt_outlined,size: 20,)),
-                  Text(users.toString(),style: theme.headlineSmall),
+                  Text(users.disLikeCount.toString(),style: theme.headlineSmall),
                 ],
               ),
 
@@ -146,37 +150,39 @@ class UsersRequest extends ConsumerWidget {
             moreStyle: TextStyle(fontSize:kFontSize12 ,color: kOrangeColor),
           ),
           spacing(),
-          myChangeNotifier.loading == true?const ShowProgressIndicator():Wrap(
-
+          Wrap(
             spacing: width * 0.03,
             runSpacing: height * 0.01,
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Header(title: "Approve",onTap: (){
-                ref.read(myChangeNotifierProvider).getUpdateNeedStatus(users.userAuthId,'approve');
-              },tooltip: approveTooltip,),
+              AllRequestsHeader(
+                title: 'Approved',
+                icon: users.approvalStatus == true
+                    ? Icon(Icons.check,color: kGreenColor,size: iconSize,)
+                    : Icon(Icons.close,color: kRedColor,size: iconSize,),
+              ),
               const VerticalDivider(),
-              Header(title: "Reject",onTap: (){
-                ref.read(myChangeNotifierProvider).getUpdateNeedStatus(users.userAuthId,'reject');
-
-
-              },tooltip: rejectTooltip,),
+              AllRequestsHeader(
+                title: 'Rejected',
+                icon: users.rejectStatus == true
+                    ? Icon(Icons.check,color: kGreenColor,size: iconSize,)
+                    : Icon(Icons.close,color: kRedColor,size: iconSize,),
+              ),
               const VerticalDivider(),
-              Header(title: "Delete",onTap: (){
-                ref.read(myChangeNotifierProvider).getDeleteNeedy(users.userAuthId);
-
-              },tooltip: deleteTooltip,),
+              AllRequestsHeader(
+                title: 'Shown',
+                icon: users.showStatus == true
+                    ? Icon(Icons.check,color: kGreenColor,size: iconSize,)
+                    : Icon(Icons.close,color: kRedColor,size: iconSize,),
+              ),
               const VerticalDivider(),
-              Header(title: "Display",onTap: (){
-                ref.read(myChangeNotifierProvider).getUpdateNeedStatus(users.userAuthId,'display');
-
-              },tooltip: displayTooltip,),
-              const VerticalDivider(),
-              Header(title: "Edit request",onTap: (){
-
-                EditDialog().showEditDialog(context: context,needy: users);
-              },tooltip: editTooltip,),
+              AllRequestsHeader(
+                title: 'Displaying',
+                icon: users.displayStatus == true
+                    ? Icon(Icons.check,color: kGreenColor,size: iconSize,)
+                    : Icon(Icons.close,color: kRedColor,size: iconSize,),
+              ),
             ],
           ),
           spacing(),

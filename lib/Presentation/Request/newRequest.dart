@@ -54,6 +54,9 @@ class _NewRequestState extends ConsumerState<NewRequest> {
       case shownRequest:
         type = 'showed';
         break;
+      case approvedRequest:
+        type = 'approval';
+        break;
       default:
         print('Selected fruit is unknown');
     }
