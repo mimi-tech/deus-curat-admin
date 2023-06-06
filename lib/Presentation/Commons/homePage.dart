@@ -51,6 +51,21 @@ class HomePage extends HookConsumerWidget {
       return;
 
     }, [fullName]);
+
+
+    useEffect(() {
+      // Use an effect to asynchronously retrieve the full name
+      Future.delayed(const Duration(milliseconds: 500)).then((value) {
+        if(Responsive.isDesktop(context)){
+          ref.read(drawerMenuProvider.notifier).state = true;
+        }else{
+          ref.read(drawerMenuProvider.notifier).state = false;
+        }
+
+      });
+      return;
+
+    }, [screenType]);
     Widget? screen;
 
       switch (screenType) {

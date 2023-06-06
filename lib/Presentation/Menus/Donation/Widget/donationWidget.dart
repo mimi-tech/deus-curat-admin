@@ -47,7 +47,7 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Row(
+             Wrap(
                children: [
                  DonationConstructor(
                     firstName: data.firstName,
@@ -161,8 +161,8 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
 
                          ConstrainedBox(
                            constraints: BoxConstraints(
-                             minWidth: width * 0.07,
-                             maxWidth: width * 0.4,
+                             minWidth: Responsive.isDesktop(context)?width * 0.07:width,
+                             maxWidth: Responsive.isDesktop(context)?width * 0.4:width,
 
                            ),
                            child: Column(
@@ -183,7 +183,7 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                              ],
                            ),
                          ),
-
+                         spacing(),
                          Row(
                            children: [
                              Stack(

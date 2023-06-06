@@ -8,8 +8,8 @@ import 'package:http/http.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firabase_storage;
 
 class Repository{
-  static String baseUrl = 'http://localhost:1003';
-  //static String baseUrl = 'https://deus-curat.herokuapp.com';
+  //static String baseUrl = 'http://localhost:1003';
+  static String baseUrl = 'https://deus-curat.herokuapp.com';
 
   Future<Object> loginUser(emailAddress,password) async {
     try {

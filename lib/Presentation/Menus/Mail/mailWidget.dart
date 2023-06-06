@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 class AllMailsWidget extends ConsumerWidget {
   const AllMailsWidget({Key? key,required this.support}) : super(key: key);
    final List<SupportModel>? support;
@@ -49,7 +50,26 @@ class AllMailsWidget extends ConsumerWidget {
                child: Row(
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
-                   Text("Reply",style: TextStyle(color: kLightBlue,fontSize: kFontSize12),),
+                   InkWell(
+                       onTap:(){
+                         String? encodeQueryParameters(Map<String, String> params) {
+                           return params.entries
+                               .map((MapEntry<String, String> e) =>
+                           '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                               .join('&');
+                         }
+// ···
+                         final Uri emailLaunchUri = Uri(
+                           scheme: 'mailto',
+                           path: data.email,
+                           query: encodeQueryParameters(<String, String>{
+                             'subject': "From Deus Curat",
+                           }),
+                         );
+
+                         launchUrl(emailLaunchUri);
+                       },
+                       child: Text("Reply",style: TextStyle(color: kLightBlue,fontSize: kFontSize12),)),
                    const VerticalDivider(),
 
                   myChangeNotifier.loading == true?const ShowProgressIndicator(): InkWell(

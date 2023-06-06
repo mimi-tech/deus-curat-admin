@@ -36,7 +36,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    double widthSize = width * 0.1;
+    double widthSize = width * 0.2;
     double heightSize = height * 0.2;
     double iconSize = 15.0.sp;
     final myChangeNotifier = ref.watch(myChangeNotifierProvider);
@@ -57,12 +57,12 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      Responsive.isDesktop(context)? Row(
+
           // spacing: 5.sp,
           // runSpacing: 10.sp,
           // alignment: WrapAlignment.spaceBetween,
-          // crossAxisAlignment: WrapCrossAlignment.start,
+          // crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +70,7 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
               ImageDisplay(
                 height:Responsive.isMobile(context)?height * 0.1: heightSize,
                 width: Responsive.isDesktop(context)?widthSize:width * 0.7,
-                imageUrl:widget.needy![index].images ,
+                imageUrl:widget.needy![index].images,
               ),
 
 
@@ -80,6 +80,123 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
                   DisplayVideo(
                     videoUrl: widget.needy![index].video,
                     width: widthSize,
+                    height: heightSize,
+                  ),
+
+                  const Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    top: 5,
+                    child: Center(
+                      child: InkWell(
+                        child:Icon(Icons.play_arrow,color: kWhiteColor,),
+                      ),
+                    ),
+                  )
+
+                ],
+              ),
+            ],
+          ),
+          SizedBox(width: 10.w,),
+
+          Container(
+            margin: EdgeInsets.only(left: 10.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+
+                spacing(),
+
+                NeedyDetails(title:"Full name",details: "${widget.needy![index].firstName} ${widget.needy![index].lastName}",),
+                NeedyDetails(title:"Phone Number",details: widget.needy![index].phoneNumber),
+                NeedyDetails(title:"Gender",details: widget.needy![index].gender),
+                NeedyDetails(title:"Email address",details: widget.needy![index].email),
+                NeedyDetails(title:"Address",details: widget.needy![index].address),
+                NeedyDetails(title:"Created on",details: DateFormat("EEEE,MMM DD,yyyy h:mma").format(DateTime.parse(widget.needy![index].createdAt))),
+                NeedyDetails(title:"Approved on",details: DateFormat("EEEE,MMM DD,yyyy h:mma").format(DateTime.parse(widget.needy![index].approvedDate.toString()))),
+
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(onPressed: (){
+                        }, icon:const Icon(Icons.thumb_up_alt_outlined,size: 20,)),
+                        Text(widget.needy![index].likeCount.toString(),style: theme.headlineSmall),
+                      ],
+                    ),
+
+                    Row(
+                      children: [
+                        IconButton(onPressed: (){
+
+                        }, icon:const Icon(Icons.thumb_down_alt_outlined,size: 20,)),
+                        Text(widget.needy![index].disLikeCount.toString(),style: theme.headlineSmall),
+                      ],
+                    ),
+
+                  ],
+                ),
+
+
+                spacing(),
+                IntrinsicHeight(
+                  child: Row(
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text("Donated amount",style: TextStyle(color: kRadioColor,fontSize: kFontSize12),),
+                          Text(widget.needy![index].amountPaid.toString(),
+                              style: theme.headlineSmall)
+                        ],
+                      ),
+                      const VerticalDivider(),
+
+                      Column(
+                        children: [
+                          Text("Amount needed",style: TextStyle(color: kRadioColor,fontSize: kFontSize12),),
+                          Text(widget.needy![index].amountNeeded.toString(),
+                              style: theme.headlineSmall),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                spacing(),
+
+              ],
+            ),
+          ),
+
+        ],
+        )
+        :Wrap(
+
+        spacing: 5.sp,
+        runSpacing: 10.sp,
+        alignment: WrapAlignment.spaceBetween,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ImageDisplay(
+                height:Responsive.isMobile(context)?height * 0.2: heightSize,
+                width: Responsive.isDesktop(context)?widthSize:width,
+                imageUrl:widget.needy![index].images ,
+              ),
+
+
+              Stack(
+                //alignment: Alignment.center,
+                children: <Widget>[
+                  DisplayVideo(
+                    videoUrl: widget.needy![index].video,
+                    width: Responsive.isDesktop(context)?widthSize:width,
                     height: heightSize,
                   ),
 
@@ -170,19 +287,16 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
               ],
             ),
           ),
-           SizedBox(
-              height: height * 0.4,
-              width: width * 0.4,
-              child: NeedyDonors(needyDetails: list,requestIndex: index,)),
+
         ],
-        ),
+      ),
         spacing(),
         Text(widget.needy![index].title.toString(),style: theme.displayMedium),
         spacing(),
         ConstrainedBox(
           constraints: BoxConstraints(
-            minWidth: width * 0.07,
-            maxWidth: width * 0.4,
+            minWidth: Responsive.isDesktop(context)?width * 0.07:width,
+            maxWidth: Responsive.isDesktop(context)?width * 0.4:width,
 
           ),
           child: ReadMoreText(widget.needy![index].description.toString(),
@@ -286,6 +400,11 @@ class _RequestWidgetState extends ConsumerState<RequestWidget> {
             ),
           ],
         ),
+        spacing(),
+        SizedBox(
+            height: height * 0.4,
+            width: width,
+            child: NeedyDonors(needyDetails: list,requestIndex: index,)),
         spacing(),
         screenType == displayedRequest
 

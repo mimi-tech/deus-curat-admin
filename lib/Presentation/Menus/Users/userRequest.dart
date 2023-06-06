@@ -43,12 +43,12 @@ class UsersRequest extends ConsumerWidget {
         children: [
           Divider(),
           Center(child: Text("${users!.firstName} ${users.lastName} Request",style: Theme.of(context).textTheme.titleMedium,)),
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+           spacing(),
+          Wrap(
+            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ImageDisplay(
-                height:Responsive.isMobile(context)?height * 0.1: heightSize,
+                height:Responsive.isMobile(context)?height * 0.2: heightSize,
                 width: Responsive.isDesktop(context)?widthSize:width * 0.7,
                 imageUrl:users.images.toString() ,
               ),
@@ -58,7 +58,7 @@ class UsersRequest extends ConsumerWidget {
                 children: <Widget>[
                   DisplayVideo(
                     videoUrl: users.video,
-                    width: widthSize,
+                    width: Responsive.isDesktop(context)?widthSize:width,
                     height: heightSize,
                   ),
                   const Positioned(

@@ -2,6 +2,7 @@ import 'package:deuscurat_admin/Logic/stateProvider.dart';
 import 'package:deuscurat_admin/Models/supportModel.dart';
 import 'package:deuscurat_admin/Models/userModel.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Admin/createAdmin.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Mail/composeDialog.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Mail/mailWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Users/usersWidget.dart';
 import 'package:deuscurat_admin/Presentation/Menus/emptyMenu.dart';
@@ -73,7 +74,7 @@ class _AllMailsState extends ConsumerState<AllMails> {
         Text(screenType.toString().toUpperCase(),style: theme.bodyLarge,),
         myChangeNotifier.loading == true?const ShowProgressIndicator(): Align(
             alignment: Alignment.topRight,
-            child: GeneralButton(title: "Compose", tapStudiesButton: (){CreateAdminDialog().showCreateAdminDialog(context);})),
+            child: GeneralButton(title: "Compose", tapStudiesButton: (){ComposeDialog().showComposeDialog(context);})),
         spacing(),
 
         Expanded(

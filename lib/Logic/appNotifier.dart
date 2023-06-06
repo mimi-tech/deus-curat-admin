@@ -7,6 +7,8 @@ import 'package:deuscurat_admin/Models/payment.dart';
 import 'package:deuscurat_admin/Models/supportModel.dart';
 import 'package:deuscurat_admin/Models/testimonyModel.dart';
 import 'package:deuscurat_admin/Models/userModel.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Testimony/doneDialog.dart';
+import 'package:deuscurat_admin/Presentation/Menus/Testimony/testimonyLoadingDialog.dart';
 import 'package:deuscurat_admin/Services/apiConstants.dart';
 import 'package:deuscurat_admin/Services/repository.dart';
 import 'package:deuscurat_admin/Utils/constant.dart';
@@ -249,9 +251,8 @@ class MyChangeNotifier extends ChangeNotifier {
     return [];
   }
 
-  getCreateTestimony(imagesAfter, videoAfter, userAuthId, testimonyTitle, testimonyDesc) async {
-    _creatingTestimonyLoading = true;
-   setLoading(true);
+  getCreateTestimony(imagesAfter, videoAfter, userAuthId, testimonyTitle, testimonyDesc,context) async {
+    SubmittedPaymentLoading.showPaymentLoading(context);
    var imageUrl = await Repository.uploadFileFirebase(imagesAfter);
 
     var videoUrl = await Repository.uploadFileFirebase(videoAfter,true);
@@ -259,14 +260,12 @@ class MyChangeNotifier extends ChangeNotifier {
     var response = await Repository.createTestimony(imageUrl, videoUrl, userAuthId, testimonyTitle, testimonyDesc);
     if (response is Success) {
       FlutterToastFunction().getToast(title: response.message,color: kGreenColor);
-      _creatingTestimonyLoading = false;
-      setLoading(true);
+      SubmittedPaymentSuccess.showPaymentSuccess(context);
     }
 
     if(response is Failure){
       FlutterToastFunction().getToast(title: response.errorResponse,color: kRedColor);
-      _creatingTestimonyLoading = false;
-      setLoading(true);
+     Navigator.pop(context);
     }
   }
   getPayment([String? requestId]) async {

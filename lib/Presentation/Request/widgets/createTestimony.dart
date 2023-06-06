@@ -167,11 +167,16 @@ class CreateTestimonyDialog{
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
-                        if(_desc.text.length > 490){
+                        if(_desc.text.length < 490){
                           FlutterToastFunction().getToast(title: "Description must be up 500 characters",color: kRedColor);
                         }else{
-                          MyChangeNotifier().getCreateTestimony(pickedFile!.bytes,pickVideo!.bytes, needy.userAuthId,_title.text,_desc.text,);
-                          Navigator.pop(context);
+                          if(pickVideo != null && pickedFile != null){
+                            MyChangeNotifier().getCreateTestimony(pickedFile!.bytes,pickVideo!.bytes, needy.userAuthId,_title.text,_desc.text,context);
+                            Navigator.pop(context);
+                          }else{
+                            FlutterToastFunction().getToast(title: "Please select users profile image and video",color: kRedColor);
+                          }
+
 
                         }
 

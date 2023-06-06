@@ -43,13 +43,13 @@ class TestimonyWidget extends ConsumerWidget {
                  Wrap(
                    children: [
                      ImageDisplay(
-                       height:Responsive.isMobile(context)?height * 0.1: heightSize,
+                       height:Responsive.isMobile(context)?height * 0.2: heightSize,
                        width: Responsive.isDesktop(context)?widthSize:width,
                        imageUrl:data.imagesBefore ,
                      ),
 
                      ImageDisplay(
-                       height:Responsive.isMobile(context)?height * 0.1: heightSize,
+                       height:Responsive.isMobile(context)?height * 0.2: heightSize,
                        width: Responsive.isDesktop(context)?widthSize:width,
                        imageUrl:data.imagesAfter ,
                      ),
