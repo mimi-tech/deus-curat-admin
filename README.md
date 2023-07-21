@@ -17,9 +17,9 @@ Deus Curat is a versatile and user-friendly charitable app that empowers users t
 </ul>
 
 ## Links: 
-1. <a href="https://play.google.com/store/apps/details?id=co.miriamly.suremove"> Download app </a>
-2. <a href="https://deuscurat.live> Deuscurat web app </a>
-3. <a href="https://admin.deuscurat.live> Deuscurat dashboard web app </a>
+1. <a href="https://play.google.com/store/apps/details?id=co.miriamly.suremove"> Download app from playstore </a>
+2. <a href="https://deuscurat.live"> Deuscurat web app </a>
+3. <a href="https://admin.deuscurat.live"> Deuscurat dashboard web app </a>
 
 
 ## Screenshots
@@ -31,7 +31,7 @@ Deus Curat is a versatile and user-friendly charitable app that empowers users t
 </td>
 
 <td>
-<img src="https://github.com/mimi-tech/deus-curat-admin/assets/62711340/1294b91d-5168-41da-9e64-3d4b54d1577a">
+<img src="https://github.com/mimi-tech/deus-curat-admin/assets/62711340/9be5ce4f-382f-4fe7-8e31-8402e45a5000">
 </td>
 </tr>
 </table>
@@ -62,9 +62,9 @@ The app utilizes the following dependencies:
 Make sure to check the pubspec.yaml file for the complete list of dependencies and their versions.
 
 ## Link: 
-1. <a href="https://play.google.com/store/apps/details?id=co.miriamly.suremove"> Download app </a>
-2. <a href="https://deuscurat.live> Deuscurat web app </a>
-3. <a href="https://admin.deuscurat.live> Deuscurat dashboard web app </a>
+1. <a href="https://play.google.com/store/apps/details?id=co.miriamly.suremove"> Download app from playstore</a>
+2. <a href="https://deuscurat.live"> Deuscurat web app </a>
+3. <a href="https://admin.deuscurat.live"> Deuscurat dashboard web app </a>
 
 
 ## Contributions
