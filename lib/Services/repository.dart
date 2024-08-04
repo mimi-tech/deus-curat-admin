@@ -8,8 +8,7 @@ import 'package:http/http.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firabase_storage;
 
 class Repository{
-  //static String baseUrl = 'http://localhost:1003';
-  static String baseUrl = 'https://deus-curat.herokuapp.com';
+
 
   Future<Object> loginUser(emailAddress,password) async {
     try {
@@ -388,7 +387,6 @@ class Repository{
 
   static Future<dynamic> uploadFileFirebase(file, [bool? isVideo]) async {
     try {
-      print("wdjwhw");
       firabase_storage.UploadTask uploadTask;
 
       firabase_storage.Reference ref = firabase_storage.FirebaseStorage.instance
@@ -407,7 +405,6 @@ class Repository{
       var  imageUrl = await ref.getDownloadURL();
       return imageUrl;
     } catch (e) {
-      print("lllll$e");
       return false;
     }
 

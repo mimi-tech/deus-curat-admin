@@ -9,3 +9,4 @@ final requestTypeProvider = StateProvider<bool>((ref) => false);
 final myChangeNotifierProvider = ChangeNotifierProvider((ref) => MyChangeNotifier());
 final donationTypeProvider = StateProvider<bool>((ref) => false);
 final usersTypeProvider = StateProvider<bool>((ref) => false);
+final reportTypeProvider = StateProvider<bool>((ref) => false);

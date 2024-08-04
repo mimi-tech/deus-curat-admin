@@ -49,8 +49,8 @@ final PaymentModel? data;
           children: [
             spacing(),
             Container(
-              height: 50.h,
-              width: 50.w,
+              height: 50,
+              width: 50,
               decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: kOrangeColor

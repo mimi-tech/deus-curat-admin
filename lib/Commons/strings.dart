@@ -16,6 +16,12 @@ const String blockedUsers = 'Blocked users';
 const String searchUsers = 'Searched users';
 const String admin = 'Admin';
 const String mail = 'Mail';
+const counselling = 'All Counselees';
+const allCounselee = 'All Counselees';
+const replayedCounselee = 'Replied Counselees';
+const newCounselee = 'New Counselees';
+const notAcceptedCounselee = 'Not accepted Counselees';
+
 
 
 const String approveTooltip = 'You are about to approve this request, The user will be notified';

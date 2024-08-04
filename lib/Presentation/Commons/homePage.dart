@@ -12,6 +12,7 @@ import 'package:deuscurat_admin/Presentation/Menus/Needy/needy.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Testimony/testimony.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Users/allUsers.dart';
 import 'package:deuscurat_admin/Presentation/Menus/Users/searchedUsers.dart';
+import 'package:deuscurat_admin/Presentation/Menus/counselling/all_report.dart';
 import 'package:deuscurat_admin/Presentation/Request/newRequest.dart';
 import 'package:deuscurat_admin/Presentation/Widgets/closeMenu.dart';
 import 'package:deuscurat_admin/Presentation/Widgets/openMenu.dart';
@@ -131,6 +132,21 @@ class HomePage extends HookConsumerWidget {
         case mail:
           screen = const AllMails();
           break;
+        case counselling:
+          screen = const AllReport();
+          break;
+
+        case replayedCounselee:
+          screen = const AllReport();
+          break;
+
+        case newCounselee:
+          screen = const AllReport();
+          break;
+
+        case notAcceptedCounselee:
+          screen = const AllReport();
+          break;
 
         default:
           print('Selected fruit is unknown');
@@ -139,7 +155,7 @@ class HomePage extends HookConsumerWidget {
 
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: kWhiteColor,
+          backgroundColor: kDrawerColor,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

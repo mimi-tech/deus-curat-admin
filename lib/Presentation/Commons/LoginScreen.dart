@@ -61,7 +61,7 @@ class LoginScreen extends ConsumerWidget {
         ),
         Container(
           margin: EdgeInsets.symmetric(
-            horizontal: Responsive.isDesktop(context)?400.sp:kMargin,
+            horizontal: Responsive.isDesktop(context)?400:kMargin,
             //vertical: MediaQuery.of(context).size.height * 0.2
           ),
           child: Form(
@@ -116,9 +116,9 @@ class LoginScreen extends ConsumerWidget {
 
         spacing(),
         (authState.isLoading)
-            ?Row(
+            ?const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             LoadingButton(),
           ],
         ):

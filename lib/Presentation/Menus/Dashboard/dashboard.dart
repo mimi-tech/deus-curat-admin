@@ -26,8 +26,8 @@ class DashBoard extends StatelessWidget {
         const Divider(),
 
         Wrap(
-          spacing: 5.sp,
-          runSpacing: 10.sp,
+          spacing: 5,
+          runSpacing: 10,
           alignment: WrapAlignment.spaceBetween,
           crossAxisAlignment: WrapCrossAlignment.start,
           children: [

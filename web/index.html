@@ -30,23 +30,45 @@
   <title>DeusCurat Admin</title>
   <link rel="manifest" href="manifest.json">
   <script type="text/javascript">
-    window.flutterWebRenderer = "html";
+    engineInitializer.initializeEngine(config)
 </script>
   <script>
     // The value below is injected by flutter build, do not touch.
-    var serviceWorkerVersion = null;
+        var serviceWorkerVersion = '{{flutter_service_worker_version}}';
+
   </script>
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
   <link rel="stylesheet" type="text/css" href="splash/style.css">
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
   <script src="splash/splash.js"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-analytics.js";
+
+    const firebaseConfig = {
+    apiKey: "AIzaSyDUA52j_ymehKAy7IEdb5gqxJNFKbQZ_XY",
+    authDomain: "deuscurat-admin.firebaseapp.com",
+    projectId: "deuscurat-admin",
+    storageBucket: "deuscurat-admin.appspot.com",
+    messagingSenderId: "959794755644",
+    appId: "1:959794755644:web:026e35a5def60b4878eb39",
+    measurementId: "G-1NM9F07B3F"
+  };
+     // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+    </script>
+
 </head>
 <body>
   <script>
     window.addEventListener('load', function(ev) {
+     {{flutter_js}}
+      {{flutter_build_config}}
       // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
+      _flutter.loader.load({
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
         },

@@ -11,7 +11,7 @@ class NavBarLogo extends StatelessWidget {
     var theme = Theme.of(context);
     //
 
-    return SvgPicture.asset('assets/app_logo.svg',height: 26.h,width: 26.w,);
+    return SvgPicture.asset('assets/app_logo.svg',height: 26,width: 26,);
     // return Image.asset("assets/imgs/app_logo.png",
     // height: Responsive.isDesktop(context)?40.h:100.h,
     // width: Responsive.isDesktop(context)? 40.w:100.w,

@@ -23,6 +23,7 @@ class CloseMenu extends ConsumerWidget {
                IconButton(onPressed: (){}, icon: const Icon(Icons.transfer_within_a_station,color: kDrawerTextColor,),),
                IconButton(onPressed: (){}, icon: const Icon(Icons.person_add,color: kDrawerTextColor,),),
                IconButton(onPressed: (){}, icon: const Icon(Icons.admin_panel_settings,color: kDrawerTextColor,),),
+               IconButton(onPressed: (){}, icon: const Icon(Icons.report_problem_outlined,color: kDrawerTextColor,),),
 
               spacing(),
             ],

@@ -30,3 +30,5 @@ const dynamic internet = "No internet connection";
 const dynamic invalidFormat = "Invalid format";
 const dynamic timeoutError = "Time out error";
 
+ String baseUrl = 'http://localhost:1005';
+//static String baseUrl = 'https://deus-curat.herokuapp.com';

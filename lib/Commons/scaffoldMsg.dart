@@ -15,7 +15,7 @@ class ScaffoldMsg{
 
   successMsg(context, title){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(title,style:  Theme.of(context).textTheme.caption!.copyWith(color: kGreen),),
+      content: Text(title,style:  Theme.of(context).textTheme.bodySmall!.copyWith(color: kGreen),),
       duration: const Duration(seconds: 5),
 
     ));

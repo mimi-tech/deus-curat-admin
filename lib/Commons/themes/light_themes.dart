@@ -1,7 +1,6 @@
 import 'package:deuscurat_admin/Commons/themes/input_decoration_theme.dart';
 import 'package:deuscurat_admin/Commons/themes/text_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:deuscurat_admin/Commons/colors.dart';
 import 'package:deuscurat_admin/Commons/dimens.dart';
@@ -33,7 +32,7 @@ class CustomTheme {
         appBarTheme:  AppBarTheme(
           elevation: 0.0,
           backgroundColor: kOrangeColor,
-          iconTheme: IconThemeData(color: kWhiteColor,size: 30.0.sp),
+          iconTheme: IconThemeData(color: kWhiteColor,size: 30.0),
            titleTextStyle: TextStyle(fontWeight: FontWeight.bold,
            fontSize: kFontSize16
            )
@@ -83,10 +82,11 @@ class CustomTheme {
         cardTheme: kCardTheme,
         dividerColor: kRadioColor,
         hintColor: kHintColor,
-        errorColor: kRedColor,
+        //errorColor: kRedColor,
+
         // dialogBackgroundColor: Colors.blue,
 
-        iconTheme: IconThemeData(size: 25.0.sp),
+        iconTheme: const IconThemeData(size: 25.0),
         listTileTheme:const ListTileThemeData(textColor: kBlackColor,selectedColor: kOrangeColor),
           popupMenuTheme: PopupMenuThemeData(textStyle: TextStyle(color: kBlackColor,fontSize: kFontSize13,fontWeight: FontWeight.bold))
     );

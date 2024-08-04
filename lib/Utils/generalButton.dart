@@ -3,13 +3,13 @@ import 'package:deuscurat_admin/Utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 class GeneralButton extends StatelessWidget {
-  const GeneralButton({Key? key,
+  const GeneralButton({super.key,
     required this.title,
     required this.tapStudiesButton,
     this.color,
     this.textColor,
 
-  }) : super(key: key);
+  });
   final String title;
   final VoidCallback tapStudiesButton;
   final Color? color;
@@ -24,13 +24,13 @@ class GeneralButton extends StatelessWidget {
   }}
 
 class DesktopButton extends StatelessWidget {
-  const DesktopButton({Key? key,
+  const DesktopButton({super.key,
     required this.title,
     required this.tapStudiesButton,
     this.color,
     this.textColor,
 
-  }) : super(key: key);
+  });
   final String title;
   final VoidCallback tapStudiesButton;
   final Color? color;
@@ -41,12 +41,12 @@ class DesktopButton extends StatelessWidget {
 
       onPressed: tapStudiesButton,
       style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+            const EdgeInsets.symmetric(horizontal: 50.0,vertical: 25.0),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
+          backgroundColor: WidgetStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor??kWhiteColor)),
@@ -55,13 +55,13 @@ class DesktopButton extends StatelessWidget {
 
 
 class TabButton extends StatelessWidget {
-  const TabButton({Key? key,
+  const TabButton({super.key,
     required this.title,
     required this.tapStudiesButton,
     this.color,
     this.textColor,
 
-  }) : super(key: key);
+  });
   final String title;
   final VoidCallback tapStudiesButton;
   final Color? color;
@@ -72,12 +72,12 @@ class TabButton extends StatelessWidget {
 
       onPressed: tapStudiesButton,
       style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
+          backgroundColor: WidgetStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelLarge),
@@ -85,13 +85,13 @@ class TabButton extends StatelessWidget {
   }}
 
 class MobileButton extends StatelessWidget {
-  const MobileButton({Key? key,
+  const MobileButton({super.key,
     required this.title,
     required this.tapStudiesButton,
     this.color,
     this.textColor,
 
-  }) : super(key: key);
+  });
   final String title;
   final VoidCallback tapStudiesButton;
   final Color? color;
@@ -102,12 +102,12 @@ class MobileButton extends StatelessWidget {
 
       onPressed: tapStudiesButton,
       style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
             EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(color??kOrangeColor)),
+          backgroundColor: WidgetStateProperty.all<Color>(color??kOrangeColor)),
       child:Text(title.toUpperCase(),
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelLarge),
@@ -116,12 +116,12 @@ class MobileButton extends StatelessWidget {
 
 
 class LoadingButton extends StatelessWidget {
-  const LoadingButton({Key? key,
+  const LoadingButton({super.key,
     this.tapStudiesButton,
     this.color,
     this.textColor,
 
-  }) : super(key: key);
+  });
   final VoidCallback? tapStudiesButton;
   final Color? color;
   final Color? textColor;
@@ -131,12 +131,12 @@ class LoadingButton extends StatelessWidget {
 
         onPressed: tapStudiesButton,
         style: ButtonStyle(
-          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.0))),
+          shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(2.0))),
 
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-            EdgeInsets.symmetric(horizontal:70.sp,vertical: 15.sp),
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+            const EdgeInsets.symmetric(horizontal:50,vertical: 20),
           ),
-          backgroundColor: MaterialStateProperty.all<Color>(color??Colors.transparent),
+          backgroundColor: WidgetStateProperty.all<Color>(color??Colors.transparent),
 
         ),
         child:const CircularProgressIndicator(color: kWhiteColor,)
@@ -144,13 +144,13 @@ class LoadingButton extends StatelessWidget {
   }}
 
 class GeneralButtonOutlined extends StatelessWidget{
-const GeneralButtonOutlined({Key? key,
+const GeneralButtonOutlined({super.key,
 required this.title,
 required this.tapStudiesButton,
 this.color,
 this.textColor,
 
-}) : super(key: key);
+});
 final String title;
 final VoidCallback tapStudiesButton;
 final Color? color;
@@ -161,12 +161,12 @@ Widget build(BuildContext context) {
 
     onPressed: tapStudiesButton,
     style: ButtonStyle(
-        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
+        shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(6.0))),
 
-        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-          EdgeInsets.symmetric(horizontal: 10.0.sp,vertical: 15.0.sp),
+        padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+          const EdgeInsets.symmetric(horizontal: 50.0,vertical: 15.0),
         ),
-        backgroundColor: MaterialStateProperty.all<Color>(color??Colors.transparent)),
+        backgroundColor: WidgetStateProperty.all<Color>(color??Colors.transparent)),
     child:Text(title.toUpperCase(),
         textAlign: TextAlign.center,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(color: textColor??kOrangeColor)),

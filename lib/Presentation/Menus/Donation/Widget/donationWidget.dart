@@ -77,8 +77,8 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
                                imageUrl: request.images.toString(),
                                imageBuilder: (context, imageProvider) =>
                                Container(
-                               width: 50.0.w,
-                               height: 50.0.h,
+                               width: 50.0,
+                               height: 50.0,
                                decoration: BoxDecoration(
                                border: Border.all(
                                width: 5.0, color:Colors.transparent,),
@@ -104,13 +104,13 @@ class _DonationWidgetState extends ConsumerState<DonationWidget> {
 
                            ],
                          ),
-                         SizedBox(height: 2.h,),
+                         SizedBox(height: 2,),
                          NeedyDetails(title:"Gender",details: request.gender),
                          NeedyDetails(title:"Email address",details: request.email),
                          NeedyDetails(title:"Address",details: request.address),
                          NeedyDetails(title:"Created on",details: DateFormat("EEEE,MMM DD,yyyy h:mma").format(DateTime.parse(request.createdAt))),
                          NeedyDetails(title:"Approved on",details: DateFormat("EEEE,MMM DD,yyyy h:mma").format(DateTime.parse(request.approvedDate.toString()))),
-                         SizedBox(height: 2.h,),
+                         SizedBox(height: 2,),
                          Row(
                            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            children: [
