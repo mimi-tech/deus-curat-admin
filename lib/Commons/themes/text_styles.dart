@@ -84,7 +84,7 @@ final kButtonTextStyle = TextStyle(
 
 );
 
-final kCardTheme =  CardTheme(
+final kCardTheme =  CardThemeData(
 shape: RoundedRectangleBorder(
     side: const BorderSide(color: Colors.transparent, width: 1.0),
 borderRadius:  BorderRadius.circular(10.0))

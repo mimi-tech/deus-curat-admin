@@ -39,7 +39,7 @@ class CustomTheme {
         ),
         fontFamily: GoogleFonts.oxanium().fontFamily,
 
-       tabBarTheme: TabBarTheme(
+       tabBarTheme: TabBarThemeData(
 
             indicatorSize: TabBarIndicatorSize.tab,
               // indicator: const BoxDecoration(color: Colors.transparent,
